@@ -1,3 +1,5 @@
+"use strict";
+
 function fibonacci(number) {
   if (number === 0) {
     return [];

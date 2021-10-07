@@ -1,3 +1,5 @@
+"use strict";
+
 function calcMeanValue(arr) {
   const arrayOfNumbers = arr.flat();
   let result = 0;

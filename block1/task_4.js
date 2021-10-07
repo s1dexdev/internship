@@ -1,3 +1,5 @@
+"use strict";
+
 function calcQuantityUniqWords(str) {
   const arrayOfWords = str.toLowerCase().split(" ");
   const uniqWords = new Set();

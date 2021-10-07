@@ -1,3 +1,5 @@
+"use strict";
+
 //  Преобразование числа в массив цифр
 function convertNumberToArray(number) {
   const arr = [];

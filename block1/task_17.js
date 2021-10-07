@@ -1,3 +1,5 @@
+"use strict";
+
 function deleteRowWithZero(array) {
   let result = array;
   let indexes = [];

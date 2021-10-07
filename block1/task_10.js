@@ -1,3 +1,5 @@
+"use strict";
+
 function calcQuantityZero(arr) {
   let quantity = 0;
 

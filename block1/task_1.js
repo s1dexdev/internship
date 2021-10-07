@@ -1,3 +1,5 @@
+"use strict";
+
 // Solution 1
 
 function isAnagram(strOne, strTwo) {

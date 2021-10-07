@@ -1,3 +1,5 @@
+"use strict";
+
 function factorial(number) {
   let factorial = 1;
 

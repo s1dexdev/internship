@@ -1,3 +1,5 @@
+"use strict";
+
 function matrixAddition(matrix1, matrix2) {
   const result = [];
 

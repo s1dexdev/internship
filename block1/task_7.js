@@ -1,3 +1,5 @@
+"use strict";
+
 // Rectangle
 
 function perimeterRectangle(sideA, sideB) {

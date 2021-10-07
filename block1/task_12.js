@@ -1,3 +1,5 @@
+"use strict";
+
 function calcSumMultiplyOfTwo(arr) {
   let sum = 0;
 

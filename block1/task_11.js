@@ -1,3 +1,5 @@
+"use strict";
+
 //  Преобразование числа в массив цифр
 function convertNumberToArray(number) {
   const arr = [];
@@ -36,10 +38,8 @@ function convertBinaryToDecimal(n) {
   for (let i = 0; i < numbers.length; i++) {
     const number = numbers[i];
 
-    result += number * 2 ** ((numbers.length - 1) - i);
+    result += number * 2 ** (numbers.length - 1 - i);
   }
 
   return result;
 }
-
-

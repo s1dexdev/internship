@@ -1,3 +1,5 @@
+"use strict";
+
 function sumElem(min, max) {
   let sum = 0;
 
