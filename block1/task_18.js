@@ -191,6 +191,76 @@ function fibonacci(number) {
     return numbersFibonacci;
 }
 
-console.log(fibonacci(5));
+// Task 8 ---------
 
-// Task 7 ---------
+function factorial(number) {
+    if (number === 0) {
+        return 1;
+    } else {
+        return number * factorial(number - 1);
+    }
+}
+
+// Task 9 ---------
+
+function sumMultiplyOfTwo(arr) {
+    let sum = 0;
+
+    (function recurse(i) {
+        i = i || 0;
+
+        if (i < arr.length) {
+            let number = arr[i];
+
+            if (number % 2 === 0) {
+                sum += number;
+            }
+
+            recurse(++i);
+        }
+    })();
+
+    return sum;
+}
+
+function sumMultiplyOfThree(arr) {
+    let sum = 0;
+
+    (function recurse(i) {
+        i = i || 0;
+
+        if (i < arr.length) {
+            let number = arr[i];
+
+            if (number % 3 === 0) {
+                sum += number;
+            }
+
+            recurse(++i);
+        }
+    })();
+
+    return sum;
+}
+
+function sumPositiveOddNumbers(arr) {
+    let sum = 0;
+
+    (function recurse(i) {
+        i = i || 0;
+
+        if (i < arr.length) {
+            let number = arr[i];
+
+            if (number > 0 && number % 2 !== 0) {
+                sum += number;
+            }
+
+            recurse(++i);
+        }
+    })();
+
+    return sum;
+}
+
+console.log(sumPositiveOddNumbers([-1, -2, 3, -4, -5, 7]));
