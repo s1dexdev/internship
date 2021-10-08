@@ -1,42 +1,42 @@
-"use strict";
+'use strict';
 
 function sumMultiplyOfTwo(arr) {
-  let sum = 0;
+    let sum = 0;
 
-  for (let i = 0; i < arr.length; i++) {
-    let number = arr[i];
-    if (number % 2 === 0) {
-      sum += number;
+    for (let i = 0; i < arr.length; i++) {
+        let number = arr[i];
+        if (number % 2 === 0) {
+            sum += number;
+        }
     }
-  }
 
-  return sum;
+    return sum;
 }
 
 function sumMultiplyOfThree(arr) {
-  let sum = 0;
+    let sum = 0;
 
-  for (let i = 0; i < arr.length; i++) {
-    let number = arr[i];
+    for (let i = 0; i < arr.length; i++) {
+        let number = arr[i];
 
-    if (number % 3 === 0) {
-      sum += number;
+        if (number % 3 === 0) {
+            sum += number;
+        }
     }
-  }
 
-  return sum;
+    return sum;
 }
 
 function sumPositiveOddNumbers(arr) {
-  let sum = 0;
+    let sum = 0;
 
-  for (let i = 0; i < arr.length; i++) {
-    let number = arr[i];
+    for (let i = 0; i < arr.length; i++) {
+        let number = arr[i];
 
-    if (number > 0 && number % 2 !== 0) {
-      sum += number;
+        if (number > 0 && number % 2 !== 0) {
+            sum += number;
+        }
     }
-  }
 
-  return sum;
+    return sum;
 }
