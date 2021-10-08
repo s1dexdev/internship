@@ -20,18 +20,12 @@ function convertNumberToArray(number) {
 function calcQuantityOfDigits(number) {
     const numbers = convertNumberToArray(number);
     const result = {};
-    let maxDigit = numbers[0];
-    let minDigit = numbers[0];
 
-    // Нахождение минимального и максимального чисел
+    // Инициализация свойств объекта result
     for (let i = 0; i < numbers.length; i++) {
-        maxDigit = numbers[i] > maxDigit ? numbers[i] : maxDigit;
-        minDigit = numbers[i] < minDigit ? numbers[i] : minDigit;
-    }
+        const digit = numbers[i];
 
-    // Определение свойств объекта
-    for (let i = minDigit; i <= maxDigit; i++) {
-        result[i] = 0;
+        result[digit] = 0;
     }
 
     // Подсчет количества чисел

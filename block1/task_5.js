@@ -5,12 +5,18 @@ function calcQuantityWords(str) {
     const map = new Map();
     let result = {};
 
+    // Инициализация свойств объекта result
     for (let i = 0; i < arrayOfWords.length; i++) {
-        map[arrayOfWords[i]] = 0;
+        const word = arrayOfWords[i];
+
+        map[word] = 0;
     }
 
+    // Подсчет количества слов
     for (let i = 0; i < arrayOfWords.length; i++) {
-        map[arrayOfWords[i]] += 1;
+        const word = arrayOfWords[i];
+
+        map[word] += 1;
     }
 
     result = { ...map };

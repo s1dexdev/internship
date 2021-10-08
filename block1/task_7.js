@@ -2,44 +2,85 @@
 
 // Rectangle
 
-function perimeterRectangle(sideA, sideB) {
-    const perimeter = 2 * (sideA + sideB);
+class Rectangle {
+    constructor(sideA, sideB) {
+        this.sideA = sideA;
+        this.sideB = sideB;
+    }
 
-    return perimeter;
-}
+    get perimeter() {
+        return this.calcPerimeter();
+    }
 
-function areaRectangle(sideA, sideB) {
-    const area = sideA * sideB;
+    get area() {
+        return this.calcArea();
+    }
 
-    return area;
+    calcPerimeter() {
+        return 2 * (this.sideA + this.sideB);
+    }
+
+    calcArea() {
+        return this.sideA * this.sideB;
+    }
 }
 
 //Triangle
 
-function perimeterTriangle(sideA, sideB, sideC) {
-    const perimeter = sideA + sideB + sideC;
+class Triangle {
+    constructor(sideA, sideB, sideC) {
+        this.sideA = sideA;
+        this.sideB = sideB;
+        this.sideC = sideC;
+    }
 
-    return perimeter;
-}
+    get perimeter() {
+        return this.calcPerimeter();
+    }
 
-function areaTriangle(sideA, sideB, sideC) {
-    const perimeter = perimeterTriangle(sideA, sideB, sideC);
-    const p = perimeter / 2;
-    const area = Math.sqrt(p * ((p - sideA) * (p - sideB) * (p - sideC)));
+    get area() {
+        return this.calcArea();
+    }
 
-    return area;
+    calcPerimeter() {
+        return this.sideA + this.sideB + this.sideC;
+    }
+
+    calcArea() {
+        const perimeter = this.calcPerimeter();
+        const p = perimeter / 2;
+        const area = Math.sqrt(
+            p * ((p - this.sideA) * (p - this.sideB) * (p - this.sideC)),
+        );
+
+        return area;
+    }
 }
 
 // Circle
 
-function perimeterCircle(radius) {
-    const perimeter = 2 * Math.PI * radius;
+class Circle {
+    constructor(radius) {
+        this.radius = radius;
+    }
 
-    return perimeter;
-}
+    get perimeter() {
+        return this.calcPerimeter();
+    }
 
-function areaCircle(radius) {
-    const area = Math.PI * (radius * radius);
+    get area() {
+        return this.calcArea();
+    }
 
-    return area;
+    calcPerimeter() {
+        const perimeter = 2 * Math.PI * this.radius;
+
+        return perimeter;
+    }
+
+    calcArea() {
+        const area = Math.PI * this.radius ** 2;
+
+        return area;
+    }
 }

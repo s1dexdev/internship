@@ -2,11 +2,22 @@
 
 function calcQuantityUniqWords(str) {
     const arrayOfWords = str.toLowerCase().split(' ');
-    const uniqWords = new Set();
+    const uniqWords = [];
 
     for (let i = 0; i < arrayOfWords.length; i++) {
-        uniqWords.add(arrayOfWords[i]);
+        const word = arrayOfWords[i];
+        let count = 0;
+
+        for (let j = 0; j < arrayOfWords.length; j++) {
+            if (word === arrayOfWords[j]) {
+                count += 1;
+            }
+        }
+
+        if (count === 1) {
+            uniqWords.push(word);
+        }
     }
 
-    return uniqWords.size;
+    return uniqWords.length;
 }
