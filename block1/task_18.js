@@ -2,8 +2,8 @@
 
 // Task 1 ---------
 
-function isAnagram(strOne, strTwo, i) {
-    i = i || 0;
+function isAnagram(strOne, strTwo, index) {
+    index = index || 0;
 
     const wordOne = strOne.toLowerCase().trim();
     const wordTwo = strTwo.toLowerCase().trim();
@@ -12,12 +12,12 @@ function isAnagram(strOne, strTwo, i) {
         return false;
     }
 
-    if (i < wordOne.length) {
+    if (index < wordOne.length) {
         let counter1 = 0;
         let counter2 = 0;
-        let letterOne = wordOne[i];
+        let letterOne = wordOne[index];
 
-        (function loopWordTwo(j) {
+        (function _isAnagram(j) {
             j = j || 0;
 
             if (j < wordOne.length) {
@@ -33,7 +33,7 @@ function isAnagram(strOne, strTwo, i) {
                     counter2 += 1;
                 }
 
-                loopWordTwo(++j);
+                _isAnagram(++j);
             }
         })();
 
@@ -41,7 +41,7 @@ function isAnagram(strOne, strTwo, i) {
             return false;
         }
 
-        return isAnagram(strOne, strTwo, ++i);
+        return isAnagram(strOne, strTwo, ++index);
     }
 
     return true;
@@ -262,3 +262,142 @@ function sumPositiveOddNumbers(arr) {
 
     return sum;
 }
+
+// Task 10 ---------
+
+function calcQuantityZero(arr, quantity, index) {
+    index = index || 0;
+    quantity = quantity || 0;
+
+    if (index === arr.length) {
+        return quantity;
+    } else {
+        if (arr[index] === 0) {
+            quantity += 1;
+
+            return calcQuantityZero(arr, quantity, ++index);
+        } else {
+            return calcQuantityZero(arr, quantity, ++index);
+        }
+    }
+}
+
+function calcQuantityNegativeNumbers(arr, quantity, index) {
+    index = index || 0;
+    quantity = quantity || 0;
+
+    if (index === arr.length) {
+        return quantity;
+    } else {
+        if (arr[index] < 0) {
+            quantity += 1;
+
+            return calcQuantityNegativeNumbers(arr, quantity, ++index);
+        } else {
+            return calcQuantityNegativeNumbers(arr, quantity, ++index);
+        }
+    }
+}
+
+function calcQuantityPositiveNumbers(arr, quantity, index) {
+    index = index || 0;
+    quantity = quantity || 0;
+
+    if (index === arr.length) {
+        return quantity;
+    } else {
+        if (arr[index] > 0) {
+            quantity += 1;
+
+            return calcQuantityPositiveNumbers(arr, quantity, ++index);
+        } else {
+            return calcQuantityPositiveNumbers(arr, quantity, ++index);
+        }
+    }
+}
+
+function calcQuantityPrimeNumbers(arr, quantity, indexI) {
+    indexI = indexI || 0;
+    quantity = quantity || 0;
+
+    if (indexI === arr.length) {
+        return quantity;
+    } else {
+        if (indexI < arr.length) {
+            let isPrime = true;
+            let number = arr[indexI];
+
+            (function _calcQuantityPrimeNumbers(indexJ) {
+                indexJ = indexJ || 2;
+
+                if (indexJ < number) {
+                    if (number % indexJ === 0) {
+                        isPrime = false;
+                        return;
+                    } else {
+                        return _calcQuantityPrimeNumbers(++indexJ);
+                    }
+                }
+            })();
+
+            if (isPrime && number > 1) {
+                quantity += 1;
+
+                return calcQuantityPrimeNumbers(arr, quantity, ++indexI);
+            } else {
+                return calcQuantityPrimeNumbers(arr, quantity, ++indexI);
+            }
+        }
+    }
+}
+
+// Task 11 ---------
+
+function convertNumberToArray(number) {
+    const arr = [];
+    let code = number;
+
+    while (code > 0) {
+        arr.push(code % 10);
+
+        code = parseInt(code / 10);
+    }
+    arr.reverse();
+
+    return arr;
+}
+
+function convertDecimalToBinary(number, array, div) {
+    div = div || number;
+    array = array || [];
+
+    array.push(div % 2);
+
+    if (div > 1) {
+        div = parseInt(div / 2);
+
+        return convertDecimalToBinary(number, array, div);
+    } else {
+        array = Number(array.reverse().join(''));
+
+        return array;
+    }
+}
+
+function convertDecimalToBinary(number, array, index) {
+    array = array || convertNumberToArray(number);
+    index = index || 0;
+    let result = 0;
+
+    if (index < array.length) {
+        const digit = array[index];
+
+        result += digit * 2 ** (array.length - 1 - index);
+
+        return result + convertDecimalToBinary(number, array, ++index);
+    } else {
+        return result;
+    }
+}
+
+// Task 12 ---------

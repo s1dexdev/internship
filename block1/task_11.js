@@ -19,11 +19,9 @@ function convertDecimalToBinary(n) {
     let result = [];
     let number = n;
 
-    result.push(number % 2);
-
-    while (number > 1) {
-        number = parseInt(number / 2);
+    while (number >= 1) {
         result.push(number % 2);
+        number = parseInt(number / 2);
     }
 
     result = Number(result.reverse().join(''));

@@ -105,3 +105,5 @@ dist
 labs/index.html
 block1/.prettierrc
 block1/index.html
+.prettierrc
+index.html
