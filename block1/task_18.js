@@ -169,26 +169,23 @@ function calcQuantityWords(str) {
 
 // Task 6 ---------
 
-function fibonacci(number) {
-    if (number === 0) {
+function fibonacci(number, numbersFib, index) {
+    index = index || 0;
+    numbersFib = numbersFib || [0, 1];
+
+    if (number <= 0) {
         return [];
+    } else {
+        if (index < number - 1) {
+            let fib = numbersFib[index] + numbersFib[index + 1];
+
+            numbersFib.push(fib);
+
+            return fibonacci(number, numbersFib, ++index);
+        }
     }
 
-    const numbersFibonacci = [0, 1];
-
-    (function calcFib(i) {
-        i = i || 0;
-
-        if (i < number - 1) {
-            let fib = numbersFibonacci[i] + numbersFibonacci[i + 1];
-
-            numbersFibonacci.push(fib);
-
-            calcFib(++i);
-        }
-    })();
-
-    return numbersFibonacci;
+    return numbersFib;
 }
 
 // Task 8 ---------
