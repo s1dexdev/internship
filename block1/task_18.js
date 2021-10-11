@@ -203,7 +203,7 @@ function factorial(number) {
 function sumMultiplyOfTwo(arr) {
     let sum = 0;
 
-    (function recurse(i) {
+    (function _sumMultiplyOfTwo(i) {
         i = i || 0;
 
         if (i < arr.length) {
@@ -213,7 +213,7 @@ function sumMultiplyOfTwo(arr) {
                 sum += number;
             }
 
-            recurse(++i);
+            _sumMultiplyOfTwo(++i);
         }
     })();
 
@@ -223,7 +223,7 @@ function sumMultiplyOfTwo(arr) {
 function sumMultiplyOfThree(arr) {
     let sum = 0;
 
-    (function recurse(i) {
+    (function _sumMultiplyOfThree(i) {
         i = i || 0;
 
         if (i < arr.length) {
@@ -233,7 +233,7 @@ function sumMultiplyOfThree(arr) {
                 sum += number;
             }
 
-            recurse(++i);
+            _sumMultiplyOfThree(++i);
         }
     })();
 
@@ -243,7 +243,7 @@ function sumMultiplyOfThree(arr) {
 function sumPositiveOddNumbers(arr) {
     let sum = 0;
 
-    (function recurse(i) {
+    (function _sumPositiveOddNumbers(i) {
         i = i || 0;
 
         if (i < arr.length) {
@@ -253,7 +253,7 @@ function sumPositiveOddNumbers(arr) {
                 sum += number;
             }
 
-            recurse(++i);
+            _sumPositiveOddNumbers(++i);
         }
     })();
 
@@ -398,3 +398,379 @@ function convertDecimalToBinary(number, array, index) {
 }
 
 // Task 12 ---------
+
+function calcSumMultiplyOfTwo(arr, indexI) {
+    indexI = indexI || 0;
+    let sum = 0;
+
+    if (indexI < arr.length) {
+        (function _calcSumMultiplyOfTwo(indexJ) {
+            indexJ = indexJ || 0;
+
+            if (indexJ < arr[indexI].length) {
+                let number = arr[indexI][indexJ];
+
+                if (number % 2 === 0) {
+                    sum += number;
+
+                    _calcSumMultiplyOfTwo(++indexJ);
+                } else {
+                    _calcSumMultiplyOfTwo(++indexJ);
+                }
+            }
+        })();
+
+        return sum + calcSumMultiplyOfTwo(arr, ++indexI);
+    }
+
+    return sum;
+}
+
+function calcSumMultiplyOfThree(arr, indexI) {
+    indexI = indexI || 0;
+    let sum = 0;
+
+    if (indexI < arr.length) {
+        (function _calcSumMultiplyOfThree(indexJ) {
+            indexJ = indexJ || 0;
+
+            if (indexJ < arr[indexI].length) {
+                let number = arr[indexI][indexJ];
+
+                if (number % 3 === 0) {
+                    sum += number;
+
+                    _calcSumMultiplyOfThree(++indexJ);
+                } else {
+                    _calcSumMultiplyOfThree(++indexJ);
+                }
+            }
+        })();
+
+        return sum + calcSumMultiplyOfThree(arr, ++indexI);
+    }
+
+    return sum;
+}
+
+function calcSumPositiveOddNumbers(arr, indexI) {
+    indexI = indexI || 0;
+    let sum = 0;
+
+    if (indexI < arr.length) {
+        (function _calcSumPositiveOddNumbers(indexJ) {
+            indexJ = indexJ || 0;
+
+            if (indexJ < arr[indexI].length) {
+                let number = arr[indexI][indexJ];
+
+                if (number > 0 && number % 2 !== 0) {
+                    sum += number;
+
+                    _calcSumPositiveOddNumbers(++indexJ);
+                } else {
+                    _calcSumPositiveOddNumbers(++indexJ);
+                }
+            }
+        })();
+
+        return sum + calcSumPositiveOddNumbers(arr, ++indexI);
+    }
+
+    return sum;
+}
+
+function calcQuantityZero(arr, indexI) {
+    indexI = indexI || 0;
+    let quantity = 0;
+
+    if (indexI < arr.length) {
+        (function _calcQuantityZero(indexJ) {
+            indexJ = indexJ || 0;
+
+            if (indexJ < arr[indexI].length) {
+                let number = arr[indexI][indexJ];
+
+                if (number === 0) {
+                    quantity += 1;
+
+                    _calcQuantityZero(++indexJ);
+                } else {
+                    _calcQuantityZero(++indexJ);
+                }
+            }
+        })();
+
+        return quantity + calcQuantityZero(arr, ++indexI);
+    }
+
+    return quantity;
+}
+
+function calcQuantityNegativeNumbers(arr, indexI) {
+    indexI = indexI || 0;
+    let quantity = 0;
+
+    if (indexI < arr.length) {
+        (function _calcQuantityNegativeNumbers(indexJ) {
+            indexJ = indexJ || 0;
+
+            if (indexJ < arr[indexI].length) {
+                let number = arr[indexI][indexJ];
+
+                if (number < 0) {
+                    quantity += 1;
+
+                    _calcQuantityNegativeNumbers(++indexJ);
+                } else {
+                    _calcQuantityNegativeNumbers(++indexJ);
+                }
+            }
+        })();
+
+        return quantity + calcQuantityNegativeNumbers(arr, ++indexI);
+    }
+
+    return quantity;
+}
+
+function calcQuantityPositiveNumbers(arr, indexI) {
+    indexI = indexI || 0;
+    let quantity = 0;
+
+    if (indexI < arr.length) {
+        (function _calcQuantityPositiveNumbers(indexJ) {
+            indexJ = indexJ || 0;
+
+            if (indexJ < arr[indexI].length) {
+                let number = arr[indexI][indexJ];
+
+                if (number > 0) {
+                    quantity += 1;
+
+                    _calcQuantityPositiveNumbers(++indexJ);
+                } else {
+                    _calcQuantityPositiveNumbers(++indexJ);
+                }
+            }
+        })();
+
+        return quantity + calcQuantityPositiveNumbers(arr, ++indexI);
+    }
+
+    return quantity;
+}
+
+function calcQuantityPrimeNumbers(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
+
+    let quantity = 0;
+
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let isPrime = true;
+            let number = arr[i][j];
+
+            (function _calcQuantityPrimeNumbers(k) {
+                k = k || 2;
+
+                if (k < number) {
+                    if (number % k === 0) {
+                        isPrime = false;
+                        return;
+                    }
+
+                    _calcQuantityPrimeNumbers(++k);
+                }
+            })();
+
+            if (isPrime && number > 1) {
+                quantity += 1;
+
+                return quantity + calcQuantityPrimeNumbers(arr, i, ++j);
+            } else {
+                return quantity + calcQuantityPrimeNumbers(arr, i, ++j);
+            }
+        }
+
+        return quantity + calcQuantityPrimeNumbers(arr, ++i);
+    }
+    return quantity;
+}
+
+// Task 13 ---------
+
+function sumElem(min, max, index) {
+    index = index || min;
+    let sum = 0;
+
+    if (index <= max) {
+        sum += index;
+
+        return sum + sumElem(min, max, ++index);
+    }
+
+    return sum;
+}
+
+function sumElemMultiplyOfThree(min, max, index) {
+    index = index || min;
+
+    let sum = 0;
+
+    if (index <= max) {
+        if (index % 3 === 0) {
+            sum += index;
+        }
+
+        return sum + sumElemMultiplyOfThree(min, max, ++index);
+    }
+
+    return sum;
+}
+
+// Task 14 ---------
+
+function calcMeanValue(arr, index) {
+    index = index || 0;
+    const arrayOfNumbers = arr.flat();
+    let result = 0;
+    let sum = 0;
+
+    if (index < arrayOfNumbers.length) {
+        const number = arrayOfNumbers[index];
+
+        sum += number;
+
+        return sum + calcMeanValue(arr, ++index);
+    }
+
+    result = parseInt(sum / arrayOfNumbers.length);
+
+    return result;
+}
+
+// Task 15 ---------
+
+function matrixTranspotion(matrix, matrixT, i, j, k) {
+    i = i || 0;
+    j = j || 0;
+    k = k || 0;
+
+    matrixT = matrixT || [];
+
+    if (i < matrix.length) {
+        matrixT.push([]);
+
+        return matrixTranspotion(matrix, matrixT, ++i);
+    }
+
+    if (j < matrix.length && i === matrix.length) {
+        if (k < matrix[j].length) {
+            matrixT[k].push(matrix[j][k]);
+
+            return matrixTranspotion(matrix, matrixT, i, j, ++k);
+        }
+        return matrixTranspotion(matrix, matrixT, i, ++j);
+    }
+
+    return matrixT;
+}
+
+// Task 16 ---------
+
+function matrixAddition(matrix1, matrix2, result, i, j, k) {
+    i = i || 0;
+    j = j || 0;
+    k = k || 0;
+    result = result || [];
+
+    if (i < matrix1.length) {
+        result.push([]);
+
+        return matrixAddition(matrix1, matrix2, result, ++i);
+    }
+
+    if (j < matrix1.length && i === matrix1.length) {
+        if (k < matrix1[j].length) {
+            const number = matrix1[j][k] + matrix2[j][k];
+
+            result[j].push(number);
+
+            return matrixAddition(matrix1, matrix2, result, i, j, ++k);
+        }
+        return matrixAddition(matrix1, matrix2, result, i, ++j);
+    }
+
+    return result;
+}
+
+// Task 17 ---------
+
+function deleteRowWithZero(array, result, indexes, i, j) {
+    result = result || array;
+    indexes = indexes || [];
+    i = i || 0;
+    j = j || 0;
+
+    if (i < array.length) {
+        if (array[i].includes(0)) {
+            const index = i;
+
+            if (!indexes.includes(index)) {
+                indexes.push(index);
+            }
+        }
+        return deleteRowWithZero(array, result, indexes, ++i);
+    }
+
+    if (j === 0 && i === array.length) {
+        indexes.reverse();
+    }
+
+    if (j < indexes.length && i >= array.length) {
+        result.splice(indexes[j], 1);
+
+        return deleteRowWithZero(array, result, indexes, i, ++j);
+    }
+
+    return result;
+}
+
+function deleteColumnWithZero(array, result, indexes, i, j, k, l) {
+    result = result || array;
+    indexes = indexes || [];
+    i = i || 0;
+    j = j || 0;
+    k = k || 0;
+    l = l || 0;
+
+    if (i < array.length) {
+        if (j < array[i].length) {
+            if (array[j][i] === 0) {
+                const index = i;
+
+                if (!indexes.includes(index)) {
+                    indexes.push(index);
+                }
+            }
+            return deleteColumnWithZero(array, result, indexes, i, ++j);
+        }
+        return deleteColumnWithZero(array, result, indexes, ++i);
+    }
+
+    if (k < indexes.length && i === array.length) {
+        if (k === 0 && l === 0) {
+            indexes.reverse();
+        }
+        if (l < array.length) {
+            result[l].splice(indexes[k], 1);
+
+            return deleteColumnWithZero(array, result, indexes, i, j, k, ++l);
+        }
+        return deleteColumnWithZero(array, result, indexes, i, j, ++k);
+    }
+
+    return result;
+}

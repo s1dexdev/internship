@@ -7,7 +7,7 @@ function calcSumMultiplyOfTwo(arr) {
         for (let j = 0; j < arr[i].length; j++) {
             let number = arr[i][j];
 
-            if (number % 2 == 0) {
+            if (number % 2 === 0) {
                 sum += number;
             }
         }
@@ -23,7 +23,7 @@ function calcSumMultiplyOfThree(arr) {
         for (let j = 0; j < arr[i].length; j++) {
             let number = arr[i][j];
 
-            if (number % 3 == 0) {
+            if (number % 3 === 0) {
                 sum += number;
             }
         }
