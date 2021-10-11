@@ -33,7 +33,7 @@ function isAnagram(strOne, strTwo, index) {
                     counter2 += 1;
                 }
 
-                _isAnagram(++j);
+                return _isAnagram(++j);
             }
         })();
 
@@ -200,62 +200,50 @@ function factorial(number) {
 
 // Task 9 ---------
 
-function sumMultiplyOfTwo(arr) {
+function sumMultiplyOfTwo(arr, i) {
+    i = i || 0;
     let sum = 0;
 
-    (function _sumMultiplyOfTwo(i) {
-        i = i || 0;
+    if (i < arr.length) {
+        let number = arr[i];
 
-        if (i < arr.length) {
-            let number = arr[i];
-
-            if (number % 2 === 0) {
-                sum += number;
-            }
-
-            _sumMultiplyOfTwo(++i);
+        if (number % 2 === 0) {
+            sum += number;
         }
-    })();
+        return sum + sumMultiplyOfTwo(arr, ++i);
+    }
 
     return sum;
 }
 
-function sumMultiplyOfThree(arr) {
+function sumMultiplyOfThree(arr, i) {
+    i = i || 0;
     let sum = 0;
 
-    (function _sumMultiplyOfThree(i) {
-        i = i || 0;
+    if (i < arr.length) {
+        let number = arr[i];
 
-        if (i < arr.length) {
-            let number = arr[i];
-
-            if (number % 3 === 0) {
-                sum += number;
-            }
-
-            _sumMultiplyOfThree(++i);
+        if (number % 3 === 0) {
+            sum += number;
         }
-    })();
+        return sum + sumMultiplyOfThree(arr, ++i);
+    }
 
     return sum;
 }
 
-function sumPositiveOddNumbers(arr) {
+function sumPositiveOddNumbers(arr, i) {
+    i = i || 0;
     let sum = 0;
 
-    (function _sumPositiveOddNumbers(i) {
-        i = i || 0;
+    if (i < arr.length) {
+        let number = arr[i];
 
-        if (i < arr.length) {
-            let number = arr[i];
-
-            if (number > 0 && number % 2 !== 0) {
-                sum += number;
-            }
-
-            _sumPositiveOddNumbers(++i);
+        if (number > 0 && number % 2 !== 0) {
+            sum += number;
         }
-    })();
+        return sum + sumPositiveOddNumbers(arr, ++i);
+    }
 
     return sum;
 }
@@ -313,26 +301,26 @@ function calcQuantityPositiveNumbers(arr, quantity, index) {
     }
 }
 
-function calcQuantityPrimeNumbers(arr, quantity, indexI) {
-    indexI = indexI || 0;
+function calcQuantityPrimeNumbers(arr, quantity, i) {
+    i = i || 0;
     quantity = quantity || 0;
 
-    if (indexI === arr.length) {
+    if (i === arr.length) {
         return quantity;
     } else {
-        if (indexI < arr.length) {
+        if (i < arr.length) {
             let isPrime = true;
-            let number = arr[indexI];
+            let number = arr[i];
 
-            (function _calcQuantityPrimeNumbers(indexJ) {
-                indexJ = indexJ || 2;
+            (function _calcQuantityPrimeNumbers(j) {
+                j = j || 2;
 
-                if (indexJ < number) {
-                    if (number % indexJ === 0) {
+                if (j < number) {
+                    if (number % j === 0) {
                         isPrime = false;
                         return;
                     } else {
-                        return _calcQuantityPrimeNumbers(++indexJ);
+                        return _calcQuantityPrimeNumbers(++j);
                     }
                 }
             })();
@@ -340,9 +328,9 @@ function calcQuantityPrimeNumbers(arr, quantity, indexI) {
             if (isPrime && number > 1) {
                 quantity += 1;
 
-                return calcQuantityPrimeNumbers(arr, quantity, ++indexI);
+                return calcQuantityPrimeNumbers(arr, quantity, ++i);
             } else {
-                return calcQuantityPrimeNumbers(arr, quantity, ++indexI);
+                return calcQuantityPrimeNumbers(arr, quantity, ++i);
             }
         }
     }
@@ -399,169 +387,133 @@ function convertDecimalToBinary(number, array, index) {
 
 // Task 12 ---------
 
-function calcSumMultiplyOfTwo(arr, indexI) {
-    indexI = indexI || 0;
+function calcSumMultiplyOfTwo(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
     let sum = 0;
 
-    if (indexI < arr.length) {
-        (function _calcSumMultiplyOfTwo(indexJ) {
-            indexJ = indexJ || 0;
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let number = arr[i][j];
 
-            if (indexJ < arr[indexI].length) {
-                let number = arr[indexI][indexJ];
-
-                if (number % 2 === 0) {
-                    sum += number;
-
-                    _calcSumMultiplyOfTwo(++indexJ);
-                } else {
-                    _calcSumMultiplyOfTwo(++indexJ);
-                }
+            if (number % 2 === 0) {
+                sum += number;
             }
-        })();
 
-        return sum + calcSumMultiplyOfTwo(arr, ++indexI);
+            return sum + calcSumMultiplyOfTwo(arr, i, ++j);
+        }
+        return sum + calcSumMultiplyOfTwo(arr, ++i);
     }
 
     return sum;
 }
 
-function calcSumMultiplyOfThree(arr, indexI) {
-    indexI = indexI || 0;
+function calcSumMultiplyOfThree(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
     let sum = 0;
 
-    if (indexI < arr.length) {
-        (function _calcSumMultiplyOfThree(indexJ) {
-            indexJ = indexJ || 0;
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let number = arr[i][j];
 
-            if (indexJ < arr[indexI].length) {
-                let number = arr[indexI][indexJ];
-
-                if (number % 3 === 0) {
-                    sum += number;
-
-                    _calcSumMultiplyOfThree(++indexJ);
-                } else {
-                    _calcSumMultiplyOfThree(++indexJ);
-                }
+            if (number % 3 === 0) {
+                sum += number;
             }
-        })();
 
-        return sum + calcSumMultiplyOfThree(arr, ++indexI);
+            return sum + calcSumMultiplyOfThree(arr, i, ++j);
+        }
+        return sum + calcSumMultiplyOfThree(arr, ++i);
     }
 
     return sum;
 }
 
-function calcSumPositiveOddNumbers(arr, indexI) {
-    indexI = indexI || 0;
+function calcSumPositiveOddNumbers(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
     let sum = 0;
 
-    if (indexI < arr.length) {
-        (function _calcSumPositiveOddNumbers(indexJ) {
-            indexJ = indexJ || 0;
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let number = arr[i][j];
 
-            if (indexJ < arr[indexI].length) {
-                let number = arr[indexI][indexJ];
-
-                if (number > 0 && number % 2 !== 0) {
-                    sum += number;
-
-                    _calcSumPositiveOddNumbers(++indexJ);
-                } else {
-                    _calcSumPositiveOddNumbers(++indexJ);
-                }
+            if (number > 0 && number % 2 !== 0) {
+                sum += number;
             }
-        })();
 
-        return sum + calcSumPositiveOddNumbers(arr, ++indexI);
+            return sum + calcSumPositiveOddNumbers(arr, i, ++j);
+        }
+        return sum + calcSumPositiveOddNumbers(arr, ++i);
     }
 
     return sum;
 }
 
-function calcQuantityZero(arr, indexI) {
-    indexI = indexI || 0;
+function calcQuantityZeros(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
     let quantity = 0;
 
-    if (indexI < arr.length) {
-        (function _calcQuantityZero(indexJ) {
-            indexJ = indexJ || 0;
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let number = arr[i][j];
 
-            if (indexJ < arr[indexI].length) {
-                let number = arr[indexI][indexJ];
-
-                if (number === 0) {
-                    quantity += 1;
-
-                    _calcQuantityZero(++indexJ);
-                } else {
-                    _calcQuantityZero(++indexJ);
-                }
+            if (number === 0) {
+                quantity += 1;
             }
-        })();
 
-        return quantity + calcQuantityZero(arr, ++indexI);
+            return quantity + calcQuantityZeros(arr, i, ++j);
+        }
+        return quantity + calcQuantityZeros(arr, ++i);
     }
 
     return quantity;
 }
 
-function calcQuantityNegativeNumbers(arr, indexI) {
-    indexI = indexI || 0;
+function calcQuantityNegativeNum(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
     let quantity = 0;
 
-    if (indexI < arr.length) {
-        (function _calcQuantityNegativeNumbers(indexJ) {
-            indexJ = indexJ || 0;
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let number = arr[i][j];
 
-            if (indexJ < arr[indexI].length) {
-                let number = arr[indexI][indexJ];
-
-                if (number < 0) {
-                    quantity += 1;
-
-                    _calcQuantityNegativeNumbers(++indexJ);
-                } else {
-                    _calcQuantityNegativeNumbers(++indexJ);
-                }
+            if (number < 0) {
+                quantity += 1;
             }
-        })();
 
-        return quantity + calcQuantityNegativeNumbers(arr, ++indexI);
+            return quantity + calcQuantityNegativeNum(arr, i, ++j);
+        }
+        return quantity + calcQuantityNegativeNum(arr, ++i);
     }
 
     return quantity;
 }
 
-function calcQuantityPositiveNumbers(arr, indexI) {
-    indexI = indexI || 0;
+function calcQuantityPositiveNum(arr, i, j) {
+    i = i || 0;
+    j = j || 0;
     let quantity = 0;
 
-    if (indexI < arr.length) {
-        (function _calcQuantityPositiveNumbers(indexJ) {
-            indexJ = indexJ || 0;
+    if (i < arr.length) {
+        if (j < arr[i].length) {
+            let number = arr[i][j];
 
-            if (indexJ < arr[indexI].length) {
-                let number = arr[indexI][indexJ];
-
-                if (number > 0) {
-                    quantity += 1;
-
-                    _calcQuantityPositiveNumbers(++indexJ);
-                } else {
-                    _calcQuantityPositiveNumbers(++indexJ);
-                }
+            if (number > 0) {
+                quantity += 1;
             }
-        })();
 
-        return quantity + calcQuantityPositiveNumbers(arr, ++indexI);
+            return quantity + calcQuantityPositiveNum(arr, i, ++j);
+        }
+        return quantity + calcQuantityPositiveNum(arr, ++i);
     }
 
     return quantity;
 }
 
-function calcQuantityPrimeNumbers(arr, i, j) {
+function calcQuantityPrimeNum(arr, i, j) {
     i = i || 0;
     j = j || 0;
 
@@ -572,7 +524,7 @@ function calcQuantityPrimeNumbers(arr, i, j) {
             let isPrime = true;
             let number = arr[i][j];
 
-            (function _calcQuantityPrimeNumbers(k) {
+            (function _calcQuantityPrimeNum(k) {
                 k = k || 2;
 
                 if (k < number) {
@@ -581,7 +533,7 @@ function calcQuantityPrimeNumbers(arr, i, j) {
                         return;
                     }
 
-                    _calcQuantityPrimeNumbers(++k);
+                    _calcQuantityPrimeNum(++k);
                 }
             })();
 
