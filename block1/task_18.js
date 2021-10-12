@@ -379,7 +379,7 @@ function convertBinaryToDecimal(number, array, index) {
 
         result += digit * 2 ** (array.length - 1 - index);
 
-        return result + convertDecimalToBinary(number, array, ++index);
+        return result + convertBinaryToDecimal(number, array, ++index);
     } else {
         return result;
     }
