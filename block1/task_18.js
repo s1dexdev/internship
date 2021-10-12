@@ -369,7 +369,7 @@ function convertDecimalToBinary(number, array, div) {
     }
 }
 
-function convertDecimalToBinary(number, array, index) {
+function convertBinaryToDecimal(number, array, index) {
     array = array || convertNumberToArray(number);
     index = index || 0;
     let result = 0;

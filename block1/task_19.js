@@ -372,20 +372,6 @@ const calcQuantityPrimeNumbers = memo((arr, quantity, i) => {
 
 // Task 11 ----------
 
-function convertNumberToArray(number) {
-    const arr = [];
-    let code = number;
-
-    while (code > 0) {
-        arr.push(code % 10);
-
-        code = parseInt(code / 10);
-    }
-    arr.reverse();
-
-    return arr;
-}
-
 const convertDecimalToBinary = memo((number, array, div) => {
     div = div || number;
     array = array || [];
@@ -403,7 +389,7 @@ const convertDecimalToBinary = memo((number, array, div) => {
     }
 });
 
-const convertDecimalToBinary = memo((number, array, index) => {
+const convertBinaryToDecimal = memo((number, array, index) => {
     array = array || convertNumberToArray(number);
     index = index || 0;
     let result = 0;
