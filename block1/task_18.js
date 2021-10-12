@@ -1,5 +1,19 @@
 'use strict';
 
+function convertNumberToArray(number) {
+    const arr = [];
+    let code = number;
+
+    while (code > 0) {
+        arr.push(code % 10);
+
+        code = parseInt(code / 10);
+    }
+    arr.reverse();
+
+    return arr;
+}
+
 // Task 1 ---------
 
 function isAnagram(strOne, strTwo, index) {
@@ -48,20 +62,6 @@ function isAnagram(strOne, strTwo, index) {
 }
 
 // Task 3 ---------
-
-function convertNumberToArray(number) {
-    const arr = [];
-    let code = number;
-
-    while (code > 0) {
-        arr.push(code % 10);
-
-        code = parseInt(code / 10);
-    }
-    arr.reverse();
-
-    return arr;
-}
 
 function calcQuantityOfDigits(number) {
     const numbers = convertNumberToArray(number);
@@ -337,20 +337,6 @@ function calcQuantityPrimeNumbers(arr, quantity, i) {
 }
 
 // Task 11 ---------
-
-function convertNumberToArray(number) {
-    const arr = [];
-    let code = number;
-
-    while (code > 0) {
-        arr.push(code % 10);
-
-        code = parseInt(code / 10);
-    }
-    arr.reverse();
-
-    return arr;
-}
 
 function convertDecimalToBinary(number, array, div) {
     div = div || number;

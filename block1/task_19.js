@@ -1,5 +1,19 @@
 'use strict';
 
+function convertNumberToArray(number) {
+    const arr = [];
+    let code = number;
+
+    while (code > 0) {
+        arr.push(code % 10);
+
+        code = parseInt(code / 10);
+    }
+    arr.reverse();
+
+    return arr;
+}
+
 // Memo
 
 function memo(func) {
@@ -70,20 +84,6 @@ const isAnagram = memo((strOne, strTwo, index) => {
 });
 
 // Task 3 ----------
-
-function convertNumberToArray(number) {
-    const arr = [];
-    let code = number;
-
-    while (code > 0) {
-        arr.push(code % 10);
-
-        code = parseInt(code / 10);
-    }
-    arr.reverse();
-
-    return arr;
-}
 
 const calcQuantityOfDigits = memo(number => {
     const numbers = convertNumberToArray(number);
