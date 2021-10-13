@@ -36,9 +36,3 @@ function calcQuantityDigigts(arr, callback) {
 
     return quantity;
 }
-
-// function cb(num) {
-//     // return num === 0;
-//     // return num > 0;
-//     // return num < 0;
-// }
