@@ -32,7 +32,7 @@ function calcQuantityOfDigits(number) {
     for (let i = 0; i < numbers.length; i++) {
         const digit = numbers[i];
 
-        result[digit] += 1;
+        result[digit]++;
     }
 
     return result;

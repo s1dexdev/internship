@@ -19,13 +19,13 @@ function isAnagram(strOne, strTwo) {
             let letterTwo = wordOne[j];
 
             if (letterOne === letterTwo) {
-                counter1 += 1;
+                counter1++;
             }
 
             letterTwo = wordTwo[j];
 
             if (letterOne === letterTwo) {
-                counter2 += 1;
+                counter2++;
             }
         }
 

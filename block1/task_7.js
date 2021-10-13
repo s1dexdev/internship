@@ -1,11 +1,12 @@
-'use strict';
-
 // Rectangle
 
 class Rectangle {
-    constructor(sideA, sideB) {
-        this.sideA = sideA;
-        this.sideB = sideB;
+    #width;
+    #height;
+
+    constructor(width, height) {
+        this.#width = width;
+        this.#height = height;
     }
 
     get perimeter() {
@@ -17,21 +18,25 @@ class Rectangle {
     }
 
     calcPerimeter() {
-        return 2 * (this.sideA + this.sideB);
+        return 2 * (this.#width + this.#height);
     }
 
     calcArea() {
-        return this.sideA * this.sideB;
+        return this.#width * this.#height;
     }
 }
 
 //Triangle
 
 class Triangle {
+    #sideA;
+    #sideB;
+    #sideC;
+
     constructor(sideA, sideB, sideC) {
-        this.sideA = sideA;
-        this.sideB = sideB;
-        this.sideC = sideC;
+        this.#sideA = sideA;
+        this.#sideB = sideB;
+        this.#sideC = sideC;
     }
 
     get perimeter() {
@@ -43,14 +48,14 @@ class Triangle {
     }
 
     calcPerimeter() {
-        return this.sideA + this.sideB + this.sideC;
+        return this.#sideA + this.#sideB + this.#sideC;
     }
 
     calcArea() {
         const perimeter = this.calcPerimeter();
         const p = perimeter / 2;
         const area = Math.sqrt(
-            p * ((p - this.sideA) * (p - this.sideB) * (p - this.sideC)),
+            p * ((p - this.#sideA) * (p - this.#sideB) * (p - this.#sideC)),
         );
 
         return area;
@@ -60,8 +65,10 @@ class Triangle {
 // Circle
 
 class Circle {
+    #radius;
+
     constructor(radius) {
-        this.radius = radius;
+        this.#radius = radius;
     }
 
     get perimeter() {
@@ -73,13 +80,13 @@ class Circle {
     }
 
     calcPerimeter() {
-        const perimeter = 2 * Math.PI * this.radius;
+        const perimeter = 2 * Math.PI * this.#radius;
 
         return perimeter;
     }
 
     calcArea() {
-        const area = Math.PI * this.radius ** 2;
+        const area = Math.PI * this.#radius ** 2;
 
         return area;
     }

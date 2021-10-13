@@ -10,7 +10,7 @@ function calcQuantityUniqWords(str) {
 
         for (let j = 0; j < arrayOfWords.length; j++) {
             if (word === arrayOfWords[j]) {
-                count += 1;
+                count++;
             }
         }
 

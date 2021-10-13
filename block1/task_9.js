@@ -1,11 +1,12 @@
 'use strict';
 
-function sumMultiplyOfTwo(arr) {
+function calcSumElems(arr, callback) {
     let sum = 0;
 
     for (let i = 0; i < arr.length; i++) {
         let number = arr[i];
-        if (number % 2 === 0) {
+
+        if (callback(number)) {
             sum += number;
         }
     }
@@ -13,30 +14,9 @@ function sumMultiplyOfTwo(arr) {
     return sum;
 }
 
-function sumMultiplyOfThree(arr) {
-    let sum = 0;
-
-    for (let i = 0; i < arr.length; i++) {
-        let number = arr[i];
-
-        if (number % 3 === 0) {
-            sum += number;
-        }
-    }
-
-    return sum;
-}
-
-function sumPositiveOddNumbers(arr) {
-    let sum = 0;
-
-    for (let i = 0; i < arr.length; i++) {
-        let number = arr[i];
-
-        if (number > 0 && number % 2 !== 0) {
-            sum += number;
-        }
-    }
-
-    return sum;
+function cb(num) {
+    // return num % 2 === 0;
+    // return num % 3 === 0;
+    // return num > 0 && num % 2 !== 0;
+    // return true;
 }

@@ -16,8 +16,9 @@ function convertNumberToArray(number) {
 
 // Task 1 ---------
 
-function isAnagram(strOne, strTwo, index) {
-    index = index || 0;
+function isAnagram(strOne, strTwo, i, counter1, counter2, j) {
+    i = i || 0;
+    j = j || 0;
 
     const wordOne = strOne.toLowerCase().trim();
     const wordTwo = strTwo.toLowerCase().trim();
@@ -26,36 +27,33 @@ function isAnagram(strOne, strTwo, index) {
         return false;
     }
 
-    if (index < wordOne.length) {
-        let counter1 = 0;
-        let counter2 = 0;
-        let letterOne = wordOne[index];
+    if (i < wordOne.length) {
+        counter1 = counter1 || 0;
+        counter2 = counter2 || 0;
 
-        (function _isAnagram(j) {
-            j = j || 0;
+        let letterOne = wordOne[i];
 
-            if (j < wordOne.length) {
-                let letterTwo = wordOne[j];
+        if (j < wordOne.length) {
+            let letterTwo = wordOne[j];
 
-                if (letterOne === letterTwo) {
-                    counter1 += 1;
-                }
-
-                letterTwo = wordTwo[j];
-
-                if (letterOne === letterTwo) {
-                    counter2 += 1;
-                }
-
-                return _isAnagram(++j);
+            if (letterOne === letterTwo) {
+                counter1++;
             }
-        })();
+
+            letterTwo = wordTwo[j];
+
+            if (letterOne === letterTwo) {
+                counter2++;
+            }
+
+            return isAnagram(strOne, strTwo, i, counter1, counter2, ++j);
+        }
 
         if (counter1 !== counter2) {
             return false;
         }
 
-        return isAnagram(strOne, strTwo, ++index);
+        return isAnagram(strOne, strTwo, ++i, counter1, counter2);
     }
 
     return true;
@@ -63,125 +61,109 @@ function isAnagram(strOne, strTwo, index) {
 
 // Task 3 ---------
 
-function calcQuantityOfDigits(number) {
+function calcQuantityDigigts(number, result, i, j) {
+    result = result || {};
+    i = i || 0;
+    j = j || 0;
+
     const numbers = convertNumberToArray(number);
-    const result = {};
 
     // Инициализация свойств объекта result
-    (function initProps(j) {
-        j = j || 0;
+    if (i < numbers.length && j === 0) {
+        const digit = numbers[i];
 
-        if (j < numbers.length) {
-            const digit = numbers[j];
+        result[digit] = 0;
 
-            result[digit] = 0;
-            initResultProps(++j);
-        }
-    })();
+        return calcQuantityDigigts(number, result, ++i, j);
+    }
 
     // Подсчет количества чисел
-    (function calcDigits(k) {
-        k = k || 0;
+    if (j < numbers.length && i === numbers.length) {
+        const digit = numbers[j];
 
-        if (k < numbers.length) {
-            const digit = numbers[k];
+        result[digit]++;
 
-            result[digit] += 1;
-            calcDigits(++k);
-        }
-    })();
+        return calcQuantityDigigts(number, result, i, ++j);
+    }
 
     return result;
 }
 
 // Task 4 ---------
 
-function calcQuantityUniqWords(str) {
+function calcQuantityUniqWords(str, uniqWords, i, j, count) {
+    uniqWords = uniqWords || [];
+    i = i || 0;
+    j = j || 0;
+
     const arrayOfWords = str.toLowerCase().split(' ');
-    const uniqWords = [];
 
-    (function findUniqWord(i) {
-        i = i || 0;
+    if (i < arrayOfWords.length) {
         const word = arrayOfWords[i];
-        let count = 0;
 
-        if (i < arrayOfWords.length) {
-            const calcQuantity = j => {
-                j = j || 0;
+        count = count || 0;
 
-                if (j < arrayOfWords.length) {
-                    if (word === arrayOfWords[j]) {
-                        count += 1;
-                    }
-
-                    calcQuantity(++j);
-                }
-            };
-
-            calcQuantity();
-
-            if (count === 1) {
-                uniqWords.push(word);
+        if (j < arrayOfWords.length) {
+            if (word === arrayOfWords[j]) {
+                count++;
             }
 
-            findUniqWord(++i);
+            return calcQuantityUniqWords(str, uniqWords, i, ++j, count);
         }
-    })();
+
+        if (count === 1) {
+            uniqWords.push(word);
+        }
+        return calcQuantityUniqWords(str, uniqWords, ++i);
+    }
 
     return uniqWords.length;
 }
 
 // Task 5 ---------
 
-function calcQuantityWords(str) {
+function calcQuantityWords(str, result, i, j) {
+    result = result || {};
+    i = i || 0;
+    j = j || 0;
+
     const arrayOfWords = str.toLowerCase().split(' ');
-    const map = new Map();
-    let result = {};
 
     // Инициализация свойств объекта result
-    (function initProps(i) {
-        i = i || 0;
+    if (i < arrayOfWords.length && j === 0) {
+        const word = arrayOfWords[i];
 
-        if (i < arrayOfWords.length) {
-            const word = arrayOfWords[i];
+        result[word] = 0;
 
-            map[word] = 0;
-            initProps(++i);
-        }
-    })();
+        return calcQuantityWords(str, result, ++i);
+    }
 
-    // Подсчет количества слов
-    (function calcWords(j) {
-        j = j || 0;
+    if (j < arrayOfWords.length && i === arrayOfWords.length) {
+        const word = arrayOfWords[j];
 
-        if (j < arrayOfWords.length) {
-            const word = arrayOfWords[j];
+        result[word]++;
 
-            map[word] += 1;
-            calcWords(++j);
-        }
-    })();
-
-    result = { ...map };
+        return calcQuantityWords(str, result, i, ++j);
+    }
 
     return result;
 }
 
 // Task 6 ---------
 
-function fibonacci(number, numbersFib, index) {
-    index = index || 0;
+function fibonacci(number, numbersFib, i) {
+    i = i || 0;
     numbersFib = numbersFib || [0, 1];
 
     if (number <= 0) {
         return [];
     } else {
-        if (index < number - 1) {
-            let fib = numbersFib[index] + numbersFib[index + 1];
+        if (i < number - 1) {
+            let fib = numbersFib[i] + numbersFib[i + 1];
 
             numbersFib.push(fib);
 
-            return fibonacci(number, numbersFib, ++index);
+            return fibonacci(number, numbersFib, ++i);
         }
     }
 
@@ -200,106 +182,52 @@ function factorial(number) {
 
 // Task 9 ---------
 
-function sumMultiplyOfTwo(arr, i) {
+function calcSumElems(arr, callback, i) {
     i = i || 0;
     let sum = 0;
 
     if (i < arr.length) {
         let number = arr[i];
 
-        if (number % 2 === 0) {
+        if (callback(number)) {
             sum += number;
         }
-        return sum + sumMultiplyOfTwo(arr, ++i);
+        return sum + calcSumElems(arr, callback, ++i);
     }
 
     return sum;
 }
 
-function sumMultiplyOfThree(arr, i) {
-    i = i || 0;
-    let sum = 0;
-
-    if (i < arr.length) {
-        let number = arr[i];
-
-        if (number % 3 === 0) {
-            sum += number;
-        }
-        return sum + sumMultiplyOfThree(arr, ++i);
-    }
-
-    return sum;
-}
-
-function sumPositiveOddNumbers(arr, i) {
-    i = i || 0;
-    let sum = 0;
-
-    if (i < arr.length) {
-        let number = arr[i];
-
-        if (number > 0 && number % 2 !== 0) {
-            sum += number;
-        }
-        return sum + sumPositiveOddNumbers(arr, ++i);
-    }
-
-    return sum;
-}
+// function cb(num) {
+//     // return num % 2 === 0;
+//     // return num % 3 === 0;
+//     // return num > 0 && num % 2 !== 0;
+//     // return true;
+// }
 
 // Task 10 ---------
 
-function calcQuantityZero(arr, quantity, index) {
-    index = index || 0;
-    quantity = quantity || 0;
+function calcQuantityOfDigigts(arr, callback, i) {
+    i = i || 0;
+    let quantity = 0;
 
-    if (index === arr.length) {
-        return quantity;
-    } else {
-        if (arr[index] === 0) {
-            quantity += 1;
+    if (i < arr.length) {
+        let number = arr[i];
 
-            return calcQuantityZero(arr, quantity, ++index);
-        } else {
-            return calcQuantityZero(arr, quantity, ++index);
+        if (callback(number)) {
+            quantity++;
         }
+        return quantity + calcQuantityOfDigigts(arr, callback, ++i);
     }
+
+    return quantity;
 }
 
-function calcQuantityNegativeNumbers(arr, quantity, index) {
-    index = index || 0;
-    quantity = quantity || 0;
-
-    if (index === arr.length) {
-        return quantity;
-    } else {
-        if (arr[index] < 0) {
-            quantity += 1;
-
-            return calcQuantityNegativeNumbers(arr, quantity, ++index);
-        } else {
-            return calcQuantityNegativeNumbers(arr, quantity, ++index);
-        }
-    }
-}
-
-function calcQuantityPositiveNumbers(arr, quantity, index) {
-    index = index || 0;
-    quantity = quantity || 0;
-
-    if (index === arr.length) {
-        return quantity;
-    } else {
-        if (arr[index] > 0) {
-            quantity += 1;
-
-            return calcQuantityPositiveNumbers(arr, quantity, ++index);
-        } else {
-            return calcQuantityPositiveNumbers(arr, quantity, ++index);
-        }
-    }
-}
+// function cb(num) {
+//     // return num === 0;
+//     // return num > 0;
+//     // return num < 0;
+// }
 
 function calcQuantityPrimeNumbers(arr, quantity, i) {
     i = i || 0;
@@ -326,7 +254,7 @@ function calcQuantityPrimeNumbers(arr, quantity, i) {
             })();
 
             if (isPrime && number > 1) {
-                quantity += 1;
+                quantity++;
 
                 return calcQuantityPrimeNumbers(arr, quantity, ++i);
             } else {
@@ -373,7 +301,7 @@ function convertBinaryToDecimal(number, array, index) {
 
 // Task 12 ---------
 
-function calcSumMultiplyOfTwo(arr, i, j) {
+function calcSumDigits(arr, callback, i, j) {
     i = i || 0;
     j = j || 0;
     let sum = 0;
@@ -382,61 +310,19 @@ function calcSumMultiplyOfTwo(arr, i, j) {
         if (j < arr[i].length) {
             let number = arr[i][j];
 
-            if (number % 2 === 0) {
+            if (callback(number)) {
                 sum += number;
             }
 
-            return sum + calcSumMultiplyOfTwo(arr, i, ++j);
+            return sum + calcSumDigits(arr, callback, i, ++j);
         }
-        return sum + calcSumMultiplyOfTwo(arr, ++i);
+        return sum + calcSumDigits(arr, callback, ++i);
     }
 
     return sum;
 }
 
-function calcSumMultiplyOfThree(arr, i, j) {
-    i = i || 0;
-    j = j || 0;
-    let sum = 0;
-
-    if (i < arr.length) {
-        if (j < arr[i].length) {
-            let number = arr[i][j];
-
-            if (number % 3 === 0) {
-                sum += number;
-            }
-
-            return sum + calcSumMultiplyOfThree(arr, i, ++j);
-        }
-        return sum + calcSumMultiplyOfThree(arr, ++i);
-    }
-
-    return sum;
-}
-
-function calcSumPositiveOddNumbers(arr, i, j) {
-    i = i || 0;
-    j = j || 0;
-    let sum = 0;
-
-    if (i < arr.length) {
-        if (j < arr[i].length) {
-            let number = arr[i][j];
-
-            if (number > 0 && number % 2 !== 0) {
-                sum += number;
-            }
-
-            return sum + calcSumPositiveOddNumbers(arr, i, ++j);
-        }
-        return sum + calcSumPositiveOddNumbers(arr, ++i);
-    }
-
-    return sum;
-}
-
-function calcQuantityZeros(arr, i, j) {
+function calcQuantityDigits(arr, callback, i, j) {
     i = i || 0;
     j = j || 0;
     let quantity = 0;
@@ -445,59 +331,27 @@ function calcQuantityZeros(arr, i, j) {
         if (j < arr[i].length) {
             let number = arr[i][j];
 
-            if (number === 0) {
-                quantity += 1;
+            if (callback(number)) {
+                quantity++;
             }
 
-            return quantity + calcQuantityZeros(arr, i, ++j);
+            return quantity + calcQuantityDigits(arr, callback, i, ++j);
         }
-        return quantity + calcQuantityZeros(arr, ++i);
+        return quantity + calcQuantityDigits(arr, callback, ++i);
     }
 
     return quantity;
 }
 
-function calcQuantityNegativeNum(arr, i, j) {
-    i = i || 0;
-    j = j || 0;
-    let quantity = 0;
-
-    if (i < arr.length) {
-        if (j < arr[i].length) {
-            let number = arr[i][j];
-
-            if (number < 0) {
-                quantity += 1;
-            }
-
-            return quantity + calcQuantityNegativeNum(arr, i, ++j);
-        }
-        return quantity + calcQuantityNegativeNum(arr, ++i);
-    }
-
-    return quantity;
-}
-
-function calcQuantityPositiveNum(arr, i, j) {
-    i = i || 0;
-    j = j || 0;
-    let quantity = 0;
-
-    if (i < arr.length) {
-        if (j < arr[i].length) {
-            let number = arr[i][j];
-
-            if (number > 0) {
-                quantity += 1;
-            }
-
-            return quantity + calcQuantityPositiveNum(arr, i, ++j);
-        }
-        return quantity + calcQuantityPositiveNum(arr, ++i);
-    }
-
-    return quantity;
-}
+// function cb(num) {
+//     // return num % 2 === 0;
+//     // return num % 3 === 0;
+//     // return num > 0 && num % 2 !== 0;
+//     // return num === 0;
+//     // return num > 0;
+//     // return num < 0;
+//     // return true;
+// }
 
 function calcQuantityPrimeNum(arr, i, j) {
     i = i || 0;
@@ -516,6 +370,7 @@ function calcQuantityPrimeNum(arr, i, j) {
                 if (k < number) {
                     if (number % k === 0) {
                         isPrime = false;
+
                         return;
                     }
 
@@ -524,45 +379,31 @@ function calcQuantityPrimeNum(arr, i, j) {
             })();
 
             if (isPrime && number > 1) {
-                quantity += 1;
+                quantity++;
 
-                return quantity + calcQuantityPrimeNumbers(arr, i, ++j);
+                return quantity + calcQuantityPrimeNum(arr, i, ++j);
             } else {
-                return quantity + calcQuantityPrimeNumbers(arr, i, ++j);
+                return quantity + calcQuantityPrimeNum(arr, i, ++j);
             }
         }
 
-        return quantity + calcQuantityPrimeNumbers(arr, ++i);
+        return quantity + calcQuantityPrimeNum(arr, ++i);
     }
     return quantity;
 }
 
 // Task 13 ---------
 
-function sumElem(min, max, index) {
-    index = index || min;
+function calcSumElem(min, max, callback, i) {
+    i = i || min;
     let sum = 0;
 
-    if (index <= max) {
-        sum += index;
-
-        return sum + sumElem(min, max, ++index);
-    }
-
-    return sum;
-}
-
-function sumElemMultiplyOfThree(min, max, index) {
-    index = index || min;
-
-    let sum = 0;
-
-    if (index <= max) {
-        if (index % 3 === 0) {
-            sum += index;
+    if (i <= max) {
+        if (callback(i)) {
+            sum += i;
         }
 
-        return sum + sumElemMultiplyOfThree(min, max, ++index);
+        return sum + calcSumElem(min, max, callback, ++i);
     }
 
     return sum;
@@ -570,18 +411,18 @@ function sumElemMultiplyOfThree(min, max, index) {
 
 // Task 14 ---------
 
-function calcMeanValue(arr, index) {
-    index = index || 0;
+function calcMeanValue(arr, i) {
+    i = i || 0;
     const arrayOfNumbers = arr.flat();
     let result = 0;
     let sum = 0;
 
-    if (index < arrayOfNumbers.length) {
-        const number = arrayOfNumbers[index];
+    if (i < arrayOfNumbers.length) {
+        const number = arrayOfNumbers[i];
 
         sum += number;
 
-        return sum + calcMeanValue(arr, ++index);
+        return sum + calcMeanValue(arr, ++i);
     }
 
     result = parseInt(sum / arrayOfNumbers.length);

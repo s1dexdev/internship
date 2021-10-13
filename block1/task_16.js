@@ -7,11 +7,11 @@ function matrixAddition(matrix1, matrix2) {
         result.push([]);
     }
 
-    for (let k = 0; k < matrix1.length; k++) {
-        for (let j = 0; j < matrix1[k].length; j++) {
-            const number = matrix1[k][j] + matrix2[k][j];
+    for (let i = 0; i < matrix1.length; i++) {
+        for (let j = 0; j < matrix1[i].length; j++) {
+            const number = matrix1[i][j] + matrix2[i][j];
 
-            result[k].push(number);
+            result[i].push(number);
         }
     }
 
