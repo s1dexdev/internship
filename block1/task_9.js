@@ -14,10 +14,9 @@ function calcSumElems(arr, callback) {
     return sum;
 }
 
-calcSumElems([-2, -1, 0, 1, 2, 3, 4, 5, 6], number => true); // Сумма всех элементов массива
-calcSumElems([-2, -1, 0, 1, 2, 3, 4, 5, 6], number => number % 2); // Сумма элементов массива кратных двум
-calcSumElems([-2, -1, 0, 1, 2, 3, 4, 5, 6], number => number % 3); // Сумма элементов массива кратных трем
-calcSumElems(
-    [-2, -1, 0, 1, 2, 3, 4, 5, 6],
-    number => number > 0 && number % 2 !== 0,
-); // Сумма элементов массива положительных и нечетных
+const array = [-2, -1, 0, 1, 2, 3, 4, 5, 6];
+
+calcSumElems(array, number => true); // Сумма всех элементов массива
+calcSumElems(array, number => number % 2); // Сумма элементов массива кратных двум
+calcSumElems(array, number => number % 3); // Сумма элементов массива кратных трем
+calcSumElems(array, number => number > 0 && number % 2 !== 0); // Сумма элементов массива положительных и нечетных

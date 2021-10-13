@@ -12,8 +12,6 @@ function calcSumElems(min, max, callback) {
     return sum;
 }
 
-// function cb() {
-//     // return num % 3 === 0;
-//     // return num > 0;
-//     // return true;
-// }
+calcSumElems(-5, 20, item => item % 3 === 0); //Сумма чисел кратных трем в диапазоне от min до max
+calcSumElems(-5, 20, item => item > 0); //Сумма положительных чисел в диапазоне от min до max
+calcSumElems(-5, 20, item => true); //Сумма всех чисел в диапазоне от min до max

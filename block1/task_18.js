@@ -198,15 +198,6 @@ function calcSumElems(arr, callback, i) {
     return sum;
 }
 
-// function cb(num) {
-//     // return num % 2 === 0;
-//     // return num % 3 === 0;
-//     // return num > 0 && num % 2 !== 0;
-//     // return true;
-// }
-
-// Task 10 ---------
-
 function calcQuantityOfDigigts(arr, callback, i) {
     i = i || 0;
     let quantity = 0;
@@ -222,12 +213,6 @@ function calcQuantityOfDigigts(arr, callback, i) {
 
     return quantity;
 }
-
-// function cb(num) {
-//     // return num === 0;
-//     // return num > 0;
-//     // return num < 0;
-// }
 
 function calcQuantityPrimeNumbers(arr, quantity, i) {
     i = i || 0;
@@ -342,16 +327,6 @@ function calcQuantityDigits(arr, callback, i, j) {
 
     return quantity;
 }
-
-// function cb(num) {
-//     // return num % 2 === 0;
-//     // return num % 3 === 0;
-//     // return num > 0 && num % 2 !== 0;
-//     // return num === 0;
-//     // return num > 0;
-//     // return num < 0;
-//     // return true;
-// }
 
 function calcQuantityPrimeNum(arr, i, j) {
     i = i || 0;
