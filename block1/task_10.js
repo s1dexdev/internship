@@ -1,12 +1,25 @@
 'use strict';
 
-function calcQuantityDigigts(arr, callback) {
+function calcQuantityDigits(arr, callback, isFlag) {
+    isFlag = isFlag || false; //Флаг на проверку простых чисел
+
     let quantity = 0;
 
     for (let i = 0; i < arr.length; i++) {
+        let isPrime = true;
         let number = arr[i];
 
-        if (callback(number)) {
+        if (isFlag) {
+            for (let j = 2; j < number; j++) {
+                if (number % j === 0) {
+                    isPrime = false;
+
+                    break;
+                }
+            }
+        }
+
+        if (callback(number, isPrime)) {
             quantity++;
         }
     }
@@ -14,21 +27,9 @@ function calcQuantityDigigts(arr, callback) {
     return quantity;
 }
 
-const array = [-1, 0, 1, 2, 3, 4, 5, 6, 0, 7];
+const array = [-1, 0, 1, 2, 3, 4, 5, 6, 0];
 
-calcQuantityDigigts(array, number => number === 0); //Количество нулей в массиве
-calcQuantityDigigts(array, number => number < 0); //Количество отрицательных элементов в массиве
-calcQuantityDigigts(array, number => number > 0); //Количество положительных элементов в массиве
-calcQuantityDigigts(array, number => {
-    let isPrime = true;
-
-    for (let i = 2; i < number; i++) {
-        if (number % i === 0) {
-            isPrime = false;
-
-            break;
-        }
-    }
-
-    return isPrime && number > 1;
-}); //Количество простых чисел в массиве
+calcQuantityDigits(array, (number, isPrime) => isPrime && number > 1, true); //Количество простых чисел в массиве
+calcQuantityDigits(array, number => number === 0); //Количество нулей в массиве
+calcQuantityDigits(array, number => number < 0); //Количество отрицательных элементов в массиве
+calcQuantityDigits(array, number => number > 0); //Количество положительных элементов в массиве

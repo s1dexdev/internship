@@ -61,7 +61,7 @@ function isAnagram(strOne, strTwo, i, counter1, counter2, j) {
 
 // Task 3 ---------
 
-function calcQuantityDigigts(number, result, i, j) {
+function calcQuantityDigigtsInNumber(number, result, i, j) {
     result = result || {};
     i = i || 0;
     j = j || 0;
@@ -74,7 +74,7 @@ function calcQuantityDigigts(number, result, i, j) {
 
         result[digit] = 0;
 
-        return calcQuantityDigigts(number, result, ++i, j);
+        return calcQuantityDigigtsInNumber(number, result, ++i, j);
     }
 
     // Подсчет количества чисел
@@ -83,7 +83,7 @@ function calcQuantityDigigts(number, result, i, j) {
 
         result[digit]++;
 
-        return calcQuantityDigigts(number, result, i, ++j);
+        return calcQuantityDigigtsInNumber(number, result, i, ++j);
     }
 
     return result;
@@ -198,56 +198,53 @@ function calcSumElems(arr, callback, i) {
     return sum;
 }
 
-function calcQuantityOfDigigts(arr, callback, i) {
+// calcSumElems(array, number => true); // Сумма всех элементов массива
+// calcSumElems(array, number => number % 2); // Сумма элементов массива кратных двум
+// calcSumElems(array, number => number % 3); // Сумма элементов массива кратных трем
+// calcSumElems(array, number => number > 0 && number % 2 !== 0); // Сумма элементов массива положительных и нечетных
+
+// Task 10 ---------
+
+function calcQuantityDigits(arr, callback, isFlag, i) {
+    isFlag = isFlag || false; //Флаг на проверку простых чисел
     i = i || 0;
+
     let quantity = 0;
 
     if (i < arr.length) {
+        let isPrime = true;
         let number = arr[i];
 
-        if (callback(number)) {
-            quantity++;
-        }
-        return quantity + calcQuantityOfDigigts(arr, callback, ++i);
-    }
-
-    return quantity;
-}
-
-function calcQuantityPrimeNumbers(arr, quantity, i) {
-    i = i || 0;
-    quantity = quantity || 0;
-
-    if (i === arr.length) {
-        return quantity;
-    } else {
-        if (i < arr.length) {
-            let isPrime = true;
-            let number = arr[i];
-
-            (function _calcQuantityPrimeNumbers(j) {
+        if (isFlag) {
+            (function isPrimeNumber(j) {
                 j = j || 2;
 
                 if (j < number) {
                     if (number % j === 0) {
                         isPrime = false;
+
                         return;
-                    } else {
-                        return _calcQuantityPrimeNumbers(++j);
                     }
+
+                    isPrimeNumber(++j);
                 }
             })();
-
-            if (isPrime && number > 1) {
-                quantity++;
-
-                return calcQuantityPrimeNumbers(arr, quantity, ++i);
-            } else {
-                return calcQuantityPrimeNumbers(arr, quantity, ++i);
-            }
         }
+
+        if (callback(number, isPrime)) {
+            quantity++;
+        }
+
+        return quantity + calcQuantityDigits(arr, callback, isFlag, ++i);
     }
+
+    return quantity;
 }
+
+// calcQuantityDigits(array, (number, isPrime) => isPrime && number > 1, true); //Количество простых чисел в массиве
+// calcQuantityDigits(array, number => number === 0); //Количество нулей в массиве
+// calcQuantityDigits(array, number => number < 0); //Количество отрицательных элементов в массиве
+// calcQuantityDigits(array, number => number > 0); //Количество положительных элементов в массиве
 
 // Task 11 ---------
 
@@ -286,7 +283,7 @@ function convertBinaryToDecimal(number, array, index) {
 
 // Task 12 ---------
 
-function calcSumDigits(arr, callback, i, j) {
+function calcSumNumbers(arr, callback, i, j) {
     i = i || 0;
     j = j || 0;
     let sum = 0;
@@ -299,15 +296,16 @@ function calcSumDigits(arr, callback, i, j) {
                 sum += number;
             }
 
-            return sum + calcSumDigits(arr, callback, i, ++j);
+            return sum + calcSumNumbers(arr, callback, i, ++j);
         }
-        return sum + calcSumDigits(arr, callback, ++i);
+        return sum + calcSumNumbers(arr, callback, ++i);
     }
 
     return sum;
 }
 
-function calcQuantityDigits(arr, callback, i, j) {
+function calcQuantityNumbers(arr, callback, isFlag, i, j) {
+    isFlag = isFlag || false; //Флаг на проверку простых чисел
     i = i || 0;
     j = j || 0;
     let quantity = 0;
@@ -315,57 +313,48 @@ function calcQuantityDigits(arr, callback, i, j) {
     if (i < arr.length) {
         if (j < arr[i].length) {
             let number = arr[i][j];
+
+            if (isFlag) {
+                (function isPrimeNumber(k) {
+                    k = k || 2;
+
+                    if (k < number) {
+                        if (number % k === 0) {
+                            isPrime = false;
+
+                            return;
+                        }
+
+                        isPrimeNumber(++k);
+                    }
+                })();
+            }
 
             if (callback(number)) {
                 quantity++;
             }
 
-            return quantity + calcQuantityDigits(arr, callback, i, ++j);
+            return (
+                quantity + calcQuantityNumbers(arr, callback, isFlag, i, ++j)
+            );
         }
-        return quantity + calcQuantityDigits(arr, callback, ++i);
+        return quantity + calcQuantityNumbers(arr, callback, isFlag, ++i);
     }
 
     return quantity;
 }
 
-function calcQuantityPrimeNum(arr, i, j) {
-    i = i || 0;
-    j = j || 0;
+// Сумма элементов
+// calcSumNumbers(array, number => true); // Сумма всех элементов массива
+// calcSumNumbers(array, number => number % 2); // Сумма элементов массива кратных двум
+// calcSumNumbers(array, number => number % 3); // Сумма элементов массива кратных трем
+// calcSumNumbers(array, number => number > 0 && number % 2 !== 0); // Сумма элементов массива положительных и нечетных
 
-    let quantity = 0;
-
-    if (i < arr.length) {
-        if (j < arr[i].length) {
-            let isPrime = true;
-            let number = arr[i][j];
-
-            (function _calcQuantityPrimeNum(k) {
-                k = k || 2;
-
-                if (k < number) {
-                    if (number % k === 0) {
-                        isPrime = false;
-
-                        return;
-                    }
-
-                    _calcQuantityPrimeNum(++k);
-                }
-            })();
-
-            if (isPrime && number > 1) {
-                quantity++;
-
-                return quantity + calcQuantityPrimeNum(arr, i, ++j);
-            } else {
-                return quantity + calcQuantityPrimeNum(arr, i, ++j);
-            }
-        }
-
-        return quantity + calcQuantityPrimeNum(arr, ++i);
-    }
-    return quantity;
-}
+// Количество элементов
+// calcQuantityNumbers(array, number => number === 0); //Количество нулей в массиве
+// calcQuantityNumbers(array, number => number < 0); //Количество отрицательных элементов в массиве
+// calcQuantityNumbers(array, number => number > 0); //Количество положительных элементов в массиве
+// calcQuantityNumbers(array, (number, isPrime) => isPrime && number > 1, true); //Количество простых чисел в массиве
 
 // Task 13 ---------
 
@@ -383,6 +372,10 @@ function calcSumElem(min, max, callback, i) {
 
     return sum;
 }
+
+// calcSumElem(-5, 20, item => item % 3 === 0); //Сумма чисел кратных трем в диапазоне от min до max
+// calcSumElem(-5, 20, item => item > 0); //Сумма положительных чисел в диапазоне от min до max
+// calcSumElem(-5, 20, item => true); //Сумма всех чисел в диапазоне от min до max
 
 // Task 14 ---------
 
