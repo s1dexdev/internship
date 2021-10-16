@@ -1,5 +1,6 @@
 'use strict';
 
+//  Преобразование числа в массив цифр
 function convertNumberToArray(number) {
     const arr = [];
     let code = number;
@@ -12,6 +13,23 @@ function convertNumberToArray(number) {
     arr.reverse();
 
     return arr;
+}
+
+// Функция для копирования двумерных массивов
+function cloneArray(arr) {
+    const newArray = [];
+
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            let newItem = [...item];
+
+            newArray.push(newItem);
+        } else {
+            newArray.push(item);
+        }
+    }
+
+    return newArray;
 }
 
 // Task 1 ---------
@@ -456,7 +474,7 @@ function matrixAddition(matrix1, matrix2, result, i, j, k) {
 // Task 17 ---------
 
 function deleteRowWithZero(array, result, indexes, i, j) {
-    result = result || [...array];
+    result = result || cloneArray(array);
     indexes = indexes || [];
     i = i || 0;
     j = j || 0;
@@ -486,7 +504,7 @@ function deleteRowWithZero(array, result, indexes, i, j) {
 }
 
 function deleteColumnWithZero(array, result, indexes, i, j, k, l) {
-    result = result || [...array];
+    result = result || cloneArray(array);
     indexes = indexes || [];
     i = i || 0;
     j = j || 0;

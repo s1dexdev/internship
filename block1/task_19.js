@@ -1,3 +1,5 @@
+'use strict';
+
 //  Преобразование числа в массив цифр
 function convertNumberToArray(number) {
     const arr = [];
@@ -31,6 +33,7 @@ function cloneArray(arr) {
 }
 
 // Task 1 ---------
+
 const memoAnagram = (() => {
     let memo = {};
 
@@ -101,6 +104,7 @@ const memoAnagram = (() => {
 })();
 
 // Task 3 ---------
+
 const memoCalcQuantityDigigtsInNumber = (() => {
     let memo = {};
 
@@ -205,6 +209,7 @@ const memoCalcQuantityUniqWords = (() => {
 })();
 
 // Task 5 ---------
+
 const memoCalcQuantityWords = (() => {
     let memo = {};
 
@@ -230,9 +235,11 @@ const memoCalcQuantityWords = (() => {
 
             if (j < arrayOfWords.length && i === arrayOfWords.length) {
                 const word = arrayOfWords[j];
+
                 if (word in memo) {
                     return word;
                 }
+
                 calcResult[word]++;
 
                 return memoCalcQuantityWords(str, calcResult, i, ++j);
@@ -261,8 +268,8 @@ const memoFibonacci = (() => {
         }
 
         if (result === undefined) {
-            i = i || 0;
             numbersFib = numbersFib || [0, 1];
+            i = i || 0;
 
             if (i < number - 1) {
                 let fib = numbersFib[i] + numbersFib[i + 1];
@@ -279,9 +286,6 @@ const memoFibonacci = (() => {
         return result;
     };
 })();
-
-console.log(memoFibonacci(5));
-console.log(memoFibonacci(5));
 
 // Task 8 ---------
 
@@ -317,7 +321,6 @@ const memoConvertDecimalToBinary = (() => {
         if (result === undefined) {
             div = div || number;
             array = array || [];
-
             array.push(div % 2);
 
             if (div > 1) {
@@ -348,6 +351,7 @@ const memoConvertBinaryToDecimal = (() => {
         if (result === undefined) {
             array = array || convertNumberToArray(number);
             index = index || 0;
+
             let resultNum = 0;
 
             if (index < array.length) {
@@ -383,6 +387,7 @@ const memoCalcMeanValue = (() => {
 
         if (result === undefined) {
             i = i || 0;
+
             const arrayOfNumbers = arr.flat();
             let resultNum = 0;
             let sum = 0;
@@ -419,11 +424,10 @@ const memoMatrixTranspotion = (() => {
         let result = memo[key];
 
         if (result === undefined) {
+            matrixT = matrixT || [];
             i = i || 0;
             j = j || 0;
             k = k || 0;
-
-            matrixT = matrixT || [];
 
             if (i < matrix.length) {
                 matrixT.push([]);
@@ -442,6 +446,7 @@ const memoMatrixTranspotion = (() => {
 
             result = matrixT;
             memo[key] = result;
+
             return result;
         }
         return result;
@@ -458,10 +463,10 @@ const memoMatrixAddition = (() => {
         let result = memo[key];
 
         if (result === undefined) {
+            resultMatrix = resultMatrix || [];
             i = i || 0;
             j = j || 0;
             k = k || 0;
-            resultMatrix = resultMatrix || [];
 
             if (i < matrix1.length) {
                 resultMatrix.push([]);
@@ -560,9 +565,7 @@ const memoDeleteColumnWithZero = (() => {
         let result = memo[key];
 
         if (result === undefined) {
-            console.log('memo');
             resultArray = resultArray || cloneArray(array);
-
             indexes = indexes || [];
             i = i || 0;
             j = j || 0;
