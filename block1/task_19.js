@@ -1,3 +1,4 @@
+//  Преобразование числа в массив цифр
 function convertNumberToArray(number) {
     const arr = [];
     let code = number;
@@ -12,14 +13,30 @@ function convertNumberToArray(number) {
     return arr;
 }
 
+// Функция для копирования двумерных массивов
+function cloneArray(arr) {
+    const newArray = [];
+
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            let newItem = [...item];
+
+            newArray.push(newItem);
+        } else {
+            newArray.push(item);
+        }
+    }
+
+    return newArray;
+}
+
 // Task 1 ---------
-function isAnagram() {
-    let cache = {};
+const memoAnagram = (() => {
+    let memo = {};
 
-    return function _isAnagram(strOne, strTwo, i, counter1, counter2, j) {
+    return (strOne, strTwo, i, counter1, counter2, j) => {
         const key = [strOne, strTwo].join('');
-
-        let result = cache[key];
+        let result = memo[key];
 
         if (result === undefined) {
             i = i || 0;
@@ -30,7 +47,7 @@ function isAnagram() {
 
             if (wordOne.length !== wordTwo.length) {
                 result = false;
-                cache[key] = result;
+                memo[key] = result;
 
                 return result;
             }
@@ -54,7 +71,7 @@ function isAnagram() {
                         counter2++;
                     }
 
-                    return _isAnagram(
+                    return memoAnagram(
                         strOne,
                         strTwo,
                         i,
@@ -66,30 +83,30 @@ function isAnagram() {
 
                 if (counter1 !== counter2) {
                     result = false;
-                    cache[key] = result;
+                    memo[key] = result;
 
                     return result;
                 }
 
-                return _isAnagram(strOne, strTwo, ++i, counter1, counter2);
+                return memoAnagram(strOne, strTwo, ++i, counter1, counter2);
             }
 
             result = true;
-            cache[key] = result;
+            memo[key] = result;
 
             return result;
         }
         return result;
     };
-}
+})();
 
 // Task 3 ---------
-function calcQuantityDigigtsInNumber() {
-    let cache = {};
+const memoCalcQuantityDigigtsInNumber = (() => {
+    let memo = {};
 
-    return function _calcQuantityDigigtsInNumber(number, calcResult, i, j) {
+    return (number, calcResult, i, j) => {
         const key = number;
-        let result = cache[key];
+        let result = memo[key];
 
         if (result === undefined) {
             calcResult = calcResult || {};
@@ -104,7 +121,12 @@ function calcQuantityDigigtsInNumber() {
 
                 calcResult[digit] = 0;
 
-                return _calcQuantityDigigtsInNumber(number, calcResult, ++i, j);
+                return memoCalcQuantityDigigtsInNumber(
+                    number,
+                    calcResult,
+                    ++i,
+                    j,
+                );
             }
 
             // Подсчет количества чисел
@@ -113,26 +135,32 @@ function calcQuantityDigigtsInNumber() {
 
                 calcResult[digit]++;
 
-                return _calcQuantityDigigtsInNumber(number, calcResult, i, ++j);
+                return memoCalcQuantityDigigtsInNumber(
+                    number,
+                    calcResult,
+                    i,
+                    ++j,
+                );
             }
 
             result = calcResult;
-            cache[key] = result;
+            memo[key] = result;
 
             return result;
         }
 
         return result;
     };
-}
+})();
 
 // Task 4 ---------
-function calcQuantityUniqWords() {
-    let cache = {};
 
-    return function _calcQuantityUniqWords(str, uniqWords, i, j, count) {
+const memoCalcQuantityUniqWords = (() => {
+    let memo = {};
+
+    return (str, uniqWords, i, j, count) => {
         const key = str.toLowerCase().trim();
-        let result = cache[key];
+        let result = memo[key];
 
         if (result === undefined) {
             uniqWords = uniqWords || [];
@@ -151,7 +179,7 @@ function calcQuantityUniqWords() {
                         count++;
                     }
 
-                    return _calcQuantityUniqWords(
+                    return memoCalcQuantityUniqWords(
                         str,
                         uniqWords,
                         i,
@@ -163,27 +191,26 @@ function calcQuantityUniqWords() {
                 if (count === 1) {
                     uniqWords.push(word);
                 }
-                return _calcQuantityUniqWords(str, uniqWords, ++i);
+                return memoCalcQuantityUniqWords(str, uniqWords, ++i);
             }
 
             result = uniqWords.length;
-            cache[key] = result;
+            memo[key] = result;
 
             return result;
         }
 
         return result;
     };
-}
+})();
 
 // Task 5 ---------
+const memoCalcQuantityWords = (() => {
+    let memo = {};
 
-function calcQuantityWords() {
-    let cache = {};
-
-    return function _calcQuantityWords(str, calcResult, i, j) {
+    return (str, calcResult, i, j) => {
         const key = str.toLowerCase().trim();
-        let result = cache[key];
+        let result = memo[key];
 
         if (result === undefined) {
             calcResult = calcResult || {};
@@ -198,47 +225,410 @@ function calcQuantityWords() {
 
                 calcResult[word] = 0;
 
-                return _calcQuantityWords(str, calcResult, ++i);
+                return memoCalcQuantityWords(str, calcResult, ++i);
             }
 
             if (j < arrayOfWords.length && i === arrayOfWords.length) {
                 const word = arrayOfWords[j];
-
+                if (word in memo) {
+                    return word;
+                }
                 calcResult[word]++;
 
-                return _calcQuantityWords(str, calcResult, i, ++j);
+                return memoCalcQuantityWords(str, calcResult, i, ++j);
             }
 
             result = calcResult;
-            cache[key] = result;
+            memo[key] = result;
 
             return result;
+        }
+        return result;
+    };
+})();
+
+// Task 6 ---------
+
+const memoFibonacci = (() => {
+    let memo = {};
+
+    return (number, numbersFib, i) => {
+        let key = number;
+        let result = memo[key];
+
+        if (number <= 0) {
+            return [];
+        }
+
+        if (result === undefined) {
+            i = i || 0;
+            numbersFib = numbersFib || [0, 1];
+
+            if (i < number - 1) {
+                let fib = numbersFib[i] + numbersFib[i + 1];
+
+                memo[i + 1] = [...numbersFib]; //Мемоизация вычислений для чисел < number
+                numbersFib.push(fib);
+                result = memoFibonacci(number, numbersFib, ++i);
+                memo[key] = result;
+            }
+
+            return numbersFib;
         }
 
         return result;
     };
-}
+})();
 
-// Task 6 ---------
+console.log(memoFibonacci(5));
+console.log(memoFibonacci(5));
 
 // Task 8 ---------
 
-function factorial() {
-    let cache = {};
+const memoFactorial = (() => {
+    let memo = {};
 
-    return function _factorial(number) {
+    return number => {
         let key = number;
-        let result = cache[key];
+        let result = memo[key];
 
         if (number === 0) {
             return 1;
         }
 
         if (result === undefined) {
-            result = _factorial(number - 1);
-            cache[key] = result;
+            result = memoFactorial(number - 1);
+            memo[key] = result;
         }
 
         return number * result;
     };
-}
+})();
+
+// Task 11 ---------
+
+const memoConvertDecimalToBinary = (() => {
+    let memo = {};
+
+    return (number, array, div) => {
+        let key = number;
+        let result = memo[key];
+
+        if (result === undefined) {
+            div = div || number;
+            array = array || [];
+
+            array.push(div % 2);
+
+            if (div > 1) {
+                div = parseInt(div / 2);
+
+                return memoConvertDecimalToBinary(number, array, div);
+            } else {
+                array = Number(array.reverse().join(''));
+
+                result = array;
+                memo[key] = result;
+
+                return result;
+            }
+        }
+
+        return result;
+    };
+})();
+
+const memoConvertBinaryToDecimal = (() => {
+    let memo = {};
+
+    return (number, array, index) => {
+        let key = number;
+        let result = memo[key];
+
+        if (result === undefined) {
+            array = array || convertNumberToArray(number);
+            index = index || 0;
+            let resultNum = 0;
+
+            if (index < array.length) {
+                const digit = array[index];
+
+                resultNum += digit * 2 ** (array.length - 1 - index);
+                result =
+                    resultNum +
+                    memoConvertBinaryToDecimal(number, array, ++index);
+                memo[key] = result;
+
+                return result;
+            }
+
+            result = resultNum;
+            memo[key] = result;
+
+            return result;
+        }
+
+        return result;
+    };
+})();
+
+// Task 14 ---------
+
+const memoCalcMeanValue = (() => {
+    let memo = {};
+
+    return (arr, i) => {
+        let key = arr.join('');
+        let result = memo[key];
+
+        if (result === undefined) {
+            i = i || 0;
+            const arrayOfNumbers = arr.flat();
+            let resultNum = 0;
+            let sum = 0;
+
+            if (i < arrayOfNumbers.length) {
+                const number = arrayOfNumbers[i];
+
+                sum += number;
+
+                result = sum + memoCalcMeanValue(arr, ++i);
+                memo[key] = result;
+
+                return result;
+            }
+
+            resultNum = parseInt(sum / arrayOfNumbers.length);
+            result = resultNum;
+            memo[key] = result;
+
+            return result;
+        }
+
+        return result;
+    };
+})();
+
+// Task 15 ---------
+
+const memoMatrixTranspotion = (() => {
+    let memo = {};
+
+    return (matrix, matrixT, i, j, k) => {
+        let key = matrix.join('');
+        let result = memo[key];
+
+        if (result === undefined) {
+            i = i || 0;
+            j = j || 0;
+            k = k || 0;
+
+            matrixT = matrixT || [];
+
+            if (i < matrix.length) {
+                matrixT.push([]);
+
+                return memoMatrixTranspotion(matrix, matrixT, ++i);
+            }
+
+            if (j < matrix.length && i === matrix.length) {
+                if (k < matrix[j].length) {
+                    matrixT[k].push(matrix[j][k]);
+
+                    return memoMatrixTranspotion(matrix, matrixT, i, j, ++k);
+                }
+                return memoMatrixTranspotion(matrix, matrixT, i, ++j);
+            }
+
+            result = matrixT;
+            memo[key] = result;
+            return result;
+        }
+        return result;
+    };
+})();
+
+// Task 16 ---------
+
+const memoMatrixAddition = (() => {
+    let memo = {};
+
+    return (matrix1, matrix2, resultMatrix, i, j, k) => {
+        let key = matrix1.join('') + matrix2.join('');
+        let result = memo[key];
+
+        if (result === undefined) {
+            i = i || 0;
+            j = j || 0;
+            k = k || 0;
+            resultMatrix = resultMatrix || [];
+
+            if (i < matrix1.length) {
+                resultMatrix.push([]);
+
+                return memoMatrixAddition(matrix1, matrix2, resultMatrix, ++i);
+            }
+
+            if (j < matrix1.length && i === matrix1.length) {
+                if (k < matrix1[j].length) {
+                    const number = matrix1[j][k] + matrix2[j][k];
+
+                    resultMatrix[j].push(number);
+
+                    return memoMatrixAddition(
+                        matrix1,
+                        matrix2,
+                        resultMatrix,
+                        i,
+                        j,
+                        ++k,
+                    );
+                }
+                return memoMatrixAddition(
+                    matrix1,
+                    matrix2,
+                    resultMatrix,
+                    i,
+                    ++j,
+                );
+            }
+            result = resultMatrix;
+            memo[key] = result;
+
+            return result;
+        }
+        return result;
+    };
+})();
+
+// Task 17 ---------
+
+const memoDeleteRowWithZero = (() => {
+    let memo = {};
+
+    return (array, resultArray, indexes, i, j) => {
+        let key = array.join('');
+        let result = memo[key];
+
+        if (result === undefined) {
+            resultArray = resultArray || cloneArray(array);
+            indexes = indexes || [];
+            i = i || 0;
+            j = j || 0;
+
+            if (i < array.length) {
+                if (array[i].includes(0)) {
+                    const index = i;
+
+                    if (!indexes.includes(index)) {
+                        indexes.push(index);
+                    }
+                }
+                return memoDeleteRowWithZero(array, resultArray, indexes, ++i);
+            }
+
+            if (j === 0 && i === array.length) {
+                indexes.reverse();
+            }
+
+            if (j < indexes.length && i >= array.length) {
+                resultArray.splice(indexes[j], 1);
+
+                return memoDeleteRowWithZero(
+                    array,
+                    resultArray,
+                    indexes,
+                    i,
+                    ++j,
+                );
+            }
+            result = resultArray;
+            memo[key] = result;
+
+            return result;
+        }
+
+        return result;
+    };
+})();
+
+const memoDeleteColumnWithZero = (() => {
+    let memo = {};
+
+    return (array, resultArray, indexes, i, j, k, l) => {
+        let key = array.join('');
+        let result = memo[key];
+
+        if (result === undefined) {
+            console.log('memo');
+            resultArray = resultArray || cloneArray(array);
+
+            indexes = indexes || [];
+            i = i || 0;
+            j = j || 0;
+            k = k || 0;
+            l = l || 0;
+
+            if (i < resultArray.length) {
+                if (j < resultArray[i].length) {
+                    if (resultArray[j][i] === 0) {
+                        const index = i;
+
+                        if (!indexes.includes(index)) {
+                            indexes.push(index);
+                        }
+                    }
+
+                    return memoDeleteColumnWithZero(
+                        array,
+                        resultArray,
+                        indexes,
+                        i,
+                        ++j,
+                    );
+                }
+
+                return memoDeleteColumnWithZero(
+                    array,
+                    resultArray,
+                    indexes,
+                    ++i,
+                );
+            }
+
+            if (k < indexes.length && i === resultArray.length) {
+                if (k === 0 && l === 0) {
+                    indexes.reverse();
+                }
+                if (l < resultArray.length) {
+                    resultArray[l].splice(indexes[k], 1);
+
+                    return memoDeleteColumnWithZero(
+                        array,
+                        resultArray,
+                        indexes,
+                        i,
+                        j,
+                        k,
+                        ++l,
+                    );
+                }
+                return memoDeleteColumnWithZero(
+                    array,
+                    resultArray,
+                    indexes,
+                    i,
+                    j,
+                    ++k,
+                );
+            }
+
+            result = resultArray;
+            memo[key] = result;
+
+            return result;
+        }
+
+        return result;
+    };
+})();

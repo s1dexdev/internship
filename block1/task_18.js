@@ -456,7 +456,7 @@ function matrixAddition(matrix1, matrix2, result, i, j, k) {
 // Task 17 ---------
 
 function deleteRowWithZero(array, result, indexes, i, j) {
-    result = result || array;
+    result = result || [...array];
     indexes = indexes || [];
     i = i || 0;
     j = j || 0;
@@ -486,7 +486,7 @@ function deleteRowWithZero(array, result, indexes, i, j) {
 }
 
 function deleteColumnWithZero(array, result, indexes, i, j, k, l) {
-    result = result || array;
+    result = result || [...array];
     indexes = indexes || [];
     i = i || 0;
     j = j || 0;
