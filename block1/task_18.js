@@ -276,11 +276,10 @@ function convertDecimalToBinary(number, array, div) {
         div = parseInt(div / 2);
 
         return convertDecimalToBinary(number, array, div);
-    } else {
-        array = Number(array.reverse().join(''));
-
-        return array;
     }
+    array = Number(array.reverse().join(''));
+
+    return array;
 }
 
 function convertBinaryToDecimal(number, array, index) {
@@ -294,9 +293,9 @@ function convertBinaryToDecimal(number, array, index) {
         result += digit * 2 ** (array.length - 1 - index);
 
         return result + convertBinaryToDecimal(number, array, ++index);
-    } else {
+    } 
         return result;
-    }
+    
 }
 
 // Task 12 ---------
