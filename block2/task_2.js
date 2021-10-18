@@ -6,7 +6,7 @@ Array.prototype.customMap = function (callback, thisValue) {
     const result = [];
     let method = null;
 
-    if (thisValue !== undefined) {
+    if (thisValue) {
         method = Symbol();
         thisValue[method] = callback;
     }
@@ -15,14 +15,14 @@ Array.prototype.customMap = function (callback, thisValue) {
         const currentItem = array[i];
         const index = i;
 
-        if (thisValue !== undefined) {
+        if (thisValue) {
             result.push(thisValue[method](currentItem, index, array));
         } else {
             result.push(callback(currentItem, index, array));
         }
     }
 
-    if (thisValue !== undefined) {
+    if (thisValue) {
         delete thisValue[method];
     }
 
@@ -35,7 +35,7 @@ Array.prototype.customFilter = function (callback, thisValue) {
     const result = [];
     let method = null;
 
-    if (thisValue !== undefined) {
+    if (thisValue) {
         method = Symbol();
         thisValue[method] = callback;
     }
@@ -44,7 +44,7 @@ Array.prototype.customFilter = function (callback, thisValue) {
         const currentItem = array[i];
         const index = i;
 
-        if (thisValue !== undefined) {
+        if (thisValue) {
             const isValid = thisValue[method](currentItem, index, array);
 
             if (isValid) {
@@ -59,7 +59,7 @@ Array.prototype.customFilter = function (callback, thisValue) {
         }
     }
 
-    if (thisValue !== undefined) {
+    if (thisValue) {
         delete thisValue[method];
     }
 
@@ -71,7 +71,7 @@ Array.prototype.customForEach = function (callback, thisValue) {
     const array = [...this];
     let method = null;
 
-    if (thisValue !== undefined) {
+    if (thisValue) {
         method = Symbol();
         thisValue[method] = callback;
     }
@@ -80,14 +80,14 @@ Array.prototype.customForEach = function (callback, thisValue) {
         const currentItem = array[i];
         const index = i;
 
-        if (thisValue !== undefined) {
+        if (thisValue) {
             thisValue[method](currentItem, index, array);
         } else {
             callback(currentItem, index, array);
         }
     }
 
-    if (thisValue !== undefined) {
+    if (thisValue) {
         delete thisValue[method];
     }
 };
