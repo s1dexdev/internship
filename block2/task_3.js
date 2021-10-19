@@ -17,9 +17,9 @@ const obj = {
     },
 };
 
-// for (let item of obj) {
-// // console.log(item)
-// }
+for (let fib of obj) {
+    fib;
+}
 
 // Solution 2 -----------
 
@@ -46,6 +46,6 @@ const obj = {
 //     },
 // };
 
-// for (let item of obj) {
-//     console.log(item);
+// for (let fib of obj) {
+//     fib;
 // }
