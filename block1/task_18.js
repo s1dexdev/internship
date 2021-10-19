@@ -484,21 +484,22 @@ function matrixAddition(matrix1, matrix2, result, indexI, indexJ, indexK) {
 
 // Task 17 ---------
 
-function deleteRowWithZero(array, result, indexes, indexI, indexJ) {
+function deleteRowWithValue(array, value, result, indexes, indexI, indexJ) {
+    value = value || 0;
     result = result || cloneArray(array);
     indexes = indexes || [];
     indexI = indexI || 0;
     indexJ = indexJ || 0;
 
     if (indexI < array.length) {
-        if (array[indexI].includes(0)) {
+        if (array[indexI].includes(value)) {
             const index = indexI;
 
             if (!indexes.includes(index)) {
                 indexes.push(index);
             }
         }
-        return deleteRowWithZero(array, result, indexes, ++indexI);
+        return deleteRowWithValue(array, value, result, indexes, ++indexI);
     }
 
     if (indexJ === 0 && indexI === array.length) {
@@ -508,14 +509,22 @@ function deleteRowWithZero(array, result, indexes, indexI, indexJ) {
     if (indexJ < indexes.length && indexI >= array.length) {
         result.splice(indexes[indexJ], 1);
 
-        return deleteRowWithZero(array, result, indexes, indexI, ++indexJ);
+        return deleteRowWithValue(
+            array,
+            value,
+            result,
+            indexes,
+            indexI,
+            ++indexJ,
+        );
     }
 
     return result;
 }
 
-function deleteColumnWithZero(
+function deleteColumnWithValue(
     array,
+    value,
     result,
     indexes,
     indexI,
@@ -523,6 +532,7 @@ function deleteColumnWithZero(
     indexK,
     indexL,
 ) {
+    value = value || 0;
     result = result || cloneArray(array);
     indexes = indexes || [];
     indexI = indexI || 0;
@@ -532,22 +542,23 @@ function deleteColumnWithZero(
 
     if (indexI < array.length) {
         if (indexJ < array[indexI].length) {
-            if (array[indexJ][indexI] === 0) {
+            if (array[indexJ][indexI] === value) {
                 const index = indexI;
 
                 if (!indexes.includes(index)) {
                     indexes.push(index);
                 }
             }
-            return deleteColumnWithZero(
+            return deleteColumnWithValue(
                 array,
+                value,
                 result,
                 indexes,
                 indexI,
                 ++indexJ,
             );
         }
-        return deleteColumnWithZero(array, result, indexes, ++indexI);
+        return deleteColumnWithValue(array, value, result, indexes, ++indexI);
     }
 
     if (indexK < indexes.length && indexI === array.length) {
@@ -557,8 +568,9 @@ function deleteColumnWithZero(
         if (indexL < array.length) {
             result[indexL].splice(indexes[indexK], 1);
 
-            return deleteColumnWithZero(
+            return deleteColumnWithValue(
                 array,
+                value,
                 result,
                 indexes,
                 indexI,
@@ -567,8 +579,9 @@ function deleteColumnWithZero(
                 ++indexL,
             );
         }
-        return deleteColumnWithZero(
+        return deleteColumnWithValue(
             array,
+            value,
             result,
             indexes,
             indexI,

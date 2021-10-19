@@ -523,11 +523,12 @@ const memoMatrixAddition = (() => {
 
 // Task 17 ---------
 
-const memoDeleteRowWithZero = (() => {
+const memoDeleteRowWithValue = (() => {
     let memo = {};
 
-    return (array, resultArray, indexes, indexI, indexJ) => {
-        let key = array.join('');
+    return (array, value, resultArray, indexes, indexI, indexJ) => {
+        value = value || 0;
+        let key = [array, value].join('');
         let result = memo[key];
 
         if (result === undefined) {
@@ -537,15 +538,16 @@ const memoDeleteRowWithZero = (() => {
             indexJ = indexJ || 0;
 
             if (indexI < array.length) {
-                if (array[indexI].includes(0)) {
+                if (array[indexI].includes(value)) {
                     const index = indexI;
 
                     if (!indexes.includes(index)) {
                         indexes.push(index);
                     }
                 }
-                return memoDeleteRowWithZero(
+                return memoDeleteRowWithValue(
                     array,
+                    value,
                     resultArray,
                     indexes,
                     ++indexI,
@@ -559,8 +561,9 @@ const memoDeleteRowWithZero = (() => {
             if (indexJ < indexes.length && indexI >= array.length) {
                 resultArray.splice(indexes[indexJ], 1);
 
-                return memoDeleteRowWithZero(
+                return memoDeleteRowWithValue(
                     array,
+                    value,
                     resultArray,
                     indexes,
                     indexI,
@@ -577,11 +580,21 @@ const memoDeleteRowWithZero = (() => {
     };
 })();
 
-const memoDeleteColumnWithZero = (() => {
+const memoDeleteColumnWithValue = (() => {
     let memo = {};
 
-    return (array, resultArray, indexes, indexI, indexJ, indexK, indexL) => {
-        let key = array.join('');
+    return (
+        array,
+        value,
+        resultArray,
+        indexes,
+        indexI,
+        indexJ,
+        indexK,
+        indexL,
+    ) => {
+        value = value || 0;
+        let key = [array, value].join('');
         let result = memo[key];
 
         if (result === undefined) {
@@ -594,7 +607,7 @@ const memoDeleteColumnWithZero = (() => {
 
             if (indexI < resultArray.length) {
                 if (indexJ < resultArray[indexI].length) {
-                    if (resultArray[indexJ][indexI] === 0) {
+                    if (resultArray[indexJ][indexI] === value) {
                         const index = indexI;
 
                         if (!indexes.includes(index)) {
@@ -602,8 +615,9 @@ const memoDeleteColumnWithZero = (() => {
                         }
                     }
 
-                    return memoDeleteColumnWithZero(
+                    return memoDeleteColumnWithValue(
                         array,
+                        value,
                         resultArray,
                         indexes,
                         indexI,
@@ -611,8 +625,9 @@ const memoDeleteColumnWithZero = (() => {
                     );
                 }
 
-                return memoDeleteColumnWithZero(
+                return memoDeleteColumnWithValue(
                     array,
+                    value,
                     resultArray,
                     indexes,
                     ++indexI,
@@ -626,8 +641,9 @@ const memoDeleteColumnWithZero = (() => {
                 if (indexL < resultArray.length) {
                     resultArray[indexL].splice(indexes[indexK], 1);
 
-                    return memoDeleteColumnWithZero(
+                    return memoDeleteColumnWithValue(
                         array,
+                        value,
                         resultArray,
                         indexes,
                         indexI,
@@ -636,8 +652,9 @@ const memoDeleteColumnWithZero = (() => {
                         ++indexL,
                     );
                 }
-                return memoDeleteColumnWithZero(
+                return memoDeleteColumnWithValue(
                     array,
+                    value,
                     resultArray,
                     indexes,
                     indexI,
