@@ -6,16 +6,12 @@ function calcQuantityWords(str) {
 
     // Инициализация свойств объекта result
     for (let i = 0; i < arrayOfWords.length; i++) {
-        const word = arrayOfWords[i];
-
-        result[word] = 0;
+        result[arrayOfWords[i]] = 0;
     }
 
     // Подсчет количества слов
     for (let i = 0; i < arrayOfWords.length; i++) {
-        const word = arrayOfWords[i];
-
-        result[word]++;
+        result[arrayOfWords[i]]++;
     }
 
     return result;

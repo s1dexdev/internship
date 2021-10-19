@@ -8,7 +8,7 @@ function factorial(number) {
     }
 
     for (let i = 0; i < number; i++) {
-        factorial = factorial * (number - i);
+        factorial *= number - i;
     }
 
     return factorial;

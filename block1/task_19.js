@@ -37,13 +37,13 @@ function cloneArray(arr) {
 const memoAnagram = (() => {
     let memo = {};
 
-    return (strOne, strTwo, i, counter1, counter2, j) => {
+    return (strOne, strTwo, indexI, counter1, counter2, indexJ) => {
         const key = [strOne, strTwo].join('');
         let result = memo[key];
 
         if (result === undefined) {
-            i = i || 0;
-            j = j || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
             const wordOne = strOne.toLowerCase().trim();
             const wordTwo = strTwo.toLowerCase().trim();
@@ -55,20 +55,20 @@ const memoAnagram = (() => {
                 return result;
             }
 
-            if (i < wordOne.length) {
+            if (indexI < wordOne.length) {
                 counter1 = counter1 || 0;
                 counter2 = counter2 || 0;
 
-                let letterOne = wordOne[i];
+                let letterOne = wordOne[indexI];
 
-                if (j < wordOne.length) {
-                    let letterTwo = wordOne[j];
+                if (indexJ < wordOne.length) {
+                    let letterTwo = wordOne[indexJ];
 
                     if (letterOne === letterTwo) {
                         counter1++;
                     }
 
-                    letterTwo = wordTwo[j];
+                    letterTwo = wordTwo[indexJ];
 
                     if (letterOne === letterTwo) {
                         counter2++;
@@ -77,10 +77,10 @@ const memoAnagram = (() => {
                     return memoAnagram(
                         strOne,
                         strTwo,
-                        i,
+                        indexI,
                         counter1,
                         counter2,
-                        ++j,
+                        ++indexJ,
                     );
                 }
 
@@ -91,7 +91,13 @@ const memoAnagram = (() => {
                     return result;
                 }
 
-                return memoAnagram(strOne, strTwo, ++i, counter1, counter2);
+                return memoAnagram(
+                    strOne,
+                    strTwo,
+                    ++indexI,
+                    counter1,
+                    counter2,
+                );
             }
 
             result = true;
@@ -108,42 +114,38 @@ const memoAnagram = (() => {
 const memoCalcQuantityDigigtsInNumber = (() => {
     let memo = {};
 
-    return (number, calcResult, i, j) => {
+    return (number, calcResult, indexI, indexJ) => {
         const key = number;
         let result = memo[key];
 
         if (result === undefined) {
             calcResult = calcResult || {};
-            i = i || 0;
-            j = j || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
             const numbers = convertNumberToArray(number);
 
             // Инициализация свойств объекта calcResult
-            if (i < numbers.length && j === 0) {
-                const digit = numbers[i];
-
-                calcResult[digit] = 0;
+            if (indexI < numbers.length && indexJ === 0) {
+                calcResult[numbers[indexI]] = 0;
 
                 return memoCalcQuantityDigigtsInNumber(
                     number,
                     calcResult,
-                    ++i,
-                    j,
+                    ++indexI,
+                    indexJ,
                 );
             }
 
             // Подсчет количества чисел
-            if (j < numbers.length && i === numbers.length) {
-                const digit = numbers[j];
-
-                calcResult[digit]++;
+            if (indexJ < numbers.length && indexI === numbers.length) {
+                calcResult[numbers[indexJ]]++;
 
                 return memoCalcQuantityDigigtsInNumber(
                     number,
                     calcResult,
-                    i,
-                    ++j,
+                    indexI,
+                    ++indexJ,
                 );
             }
 
@@ -162,32 +164,32 @@ const memoCalcQuantityDigigtsInNumber = (() => {
 const memoCalcQuantityUniqWords = (() => {
     let memo = {};
 
-    return (str, uniqWords, i, j, count) => {
+    return (str, uniqWords, indexI, indexJ, count) => {
         const key = str.toLowerCase().trim();
         let result = memo[key];
 
         if (result === undefined) {
             uniqWords = uniqWords || [];
-            i = i || 0;
-            j = j || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
             const arrayOfWords = str.toLowerCase().split(' ');
 
-            if (i < arrayOfWords.length) {
-                const word = arrayOfWords[i];
+            if (indexI < arrayOfWords.length) {
+                const word = arrayOfWords[indexI];
 
                 count = count || 0;
 
-                if (j < arrayOfWords.length) {
-                    if (word === arrayOfWords[j]) {
+                if (indexJ < arrayOfWords.length) {
+                    if (word === arrayOfWords[indexJ]) {
                         count++;
                     }
 
                     return memoCalcQuantityUniqWords(
                         str,
                         uniqWords,
-                        i,
-                        ++j,
+                        indexI,
+                        ++indexJ,
                         count,
                     );
                 }
@@ -195,7 +197,7 @@ const memoCalcQuantityUniqWords = (() => {
                 if (count === 1) {
                     uniqWords.push(word);
                 }
-                return memoCalcQuantityUniqWords(str, uniqWords, ++i);
+                return memoCalcQuantityUniqWords(str, uniqWords, ++indexI);
             }
 
             result = uniqWords.length;
@@ -213,28 +215,29 @@ const memoCalcQuantityUniqWords = (() => {
 const memoCalcQuantityWords = (() => {
     let memo = {};
 
-    return (str, calcResult, i, j) => {
+    return (str, calcResult, indexI, indexJ) => {
         const key = str.toLowerCase().trim();
         let result = memo[key];
 
         if (result === undefined) {
             calcResult = calcResult || {};
-            i = i || 0;
-            j = j || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
             const arrayOfWords = str.toLowerCase().split(' ');
 
             // Инициализация свойств объекта calcResult
-            if (i < arrayOfWords.length && j === 0) {
-                const word = arrayOfWords[i];
+            if (indexI < arrayOfWords.length && indexJ === 0) {
+                calcResult[arrayOfWords[indexI]] = 0;
 
-                calcResult[word] = 0;
-
-                return memoCalcQuantityWords(str, calcResult, ++i);
+                return memoCalcQuantityWords(str, calcResult, ++indexI);
             }
 
-            if (j < arrayOfWords.length && i === arrayOfWords.length) {
-                const word = arrayOfWords[j];
+            if (
+                indexJ < arrayOfWords.length &&
+                indexI === arrayOfWords.length
+            ) {
+                const word = arrayOfWords[indexJ];
 
                 if (word in memo) {
                     return word;
@@ -242,7 +245,7 @@ const memoCalcQuantityWords = (() => {
 
                 calcResult[word]++;
 
-                return memoCalcQuantityWords(str, calcResult, i, ++j);
+                return memoCalcQuantityWords(str, calcResult, indexI, ++indexJ);
             }
 
             result = calcResult;
@@ -259,7 +262,7 @@ const memoCalcQuantityWords = (() => {
 const memoFibonacci = (() => {
     let memo = {};
 
-    return (number, numbersFib, i) => {
+    return (number, numbersFib, indexI) => {
         let key = number;
         let result = memo[key];
 
@@ -269,14 +272,14 @@ const memoFibonacci = (() => {
 
         if (result === undefined) {
             numbersFib = numbersFib || [0, 1];
-            i = i || 0;
+            indexI = indexI || 0;
 
-            if (i < number - 1) {
-                let fib = numbersFib[i] + numbersFib[i + 1];
+            if (indexI < number - 1) {
+                let fib = numbersFib[indexI] + numbersFib[indexI + 1];
 
-                memo[i + 1] = [...numbersFib]; //Мемоизация вычислений для чисел < number
+                memo[indexI + 1] = [...numbersFib]; //Мемоизация вычислений для чисел < number
                 numbersFib.push(fib);
-                result = memoFibonacci(number, numbersFib, ++i);
+                result = memoFibonacci(number, numbersFib, ++indexI);
                 memo[key] = result;
             }
 
@@ -381,23 +384,23 @@ const memoConvertBinaryToDecimal = (() => {
 const memoCalcMeanValue = (() => {
     let memo = {};
 
-    return (arr, i) => {
+    return (arr, indexI) => {
         let key = arr.join('');
         let result = memo[key];
 
         if (result === undefined) {
-            i = i || 0;
+            indexI = indexI || 0;
 
             const arrayOfNumbers = arr.flat();
             let resultNum = 0;
             let sum = 0;
 
-            if (i < arrayOfNumbers.length) {
-                const number = arrayOfNumbers[i];
+            if (indexI < arrayOfNumbers.length) {
+                const number = arrayOfNumbers[indexI];
 
                 sum += number;
 
-                result = sum + memoCalcMeanValue(arr, ++i);
+                result = sum + memoCalcMeanValue(arr, ++indexI);
                 memo[key] = result;
 
                 return result;
@@ -419,29 +422,35 @@ const memoCalcMeanValue = (() => {
 const memoMatrixTranspotion = (() => {
     let memo = {};
 
-    return (matrix, matrixT, i, j, k) => {
+    return (matrix, matrixT, indexI, indexJ, indexK) => {
         let key = matrix.join('');
         let result = memo[key];
 
         if (result === undefined) {
             matrixT = matrixT || [];
-            i = i || 0;
-            j = j || 0;
-            k = k || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
+            indexK = indexK || 0;
 
-            if (i < matrix.length) {
+            if (indexI < matrix.length) {
                 matrixT.push([]);
 
-                return memoMatrixTranspotion(matrix, matrixT, ++i);
+                return memoMatrixTranspotion(matrix, matrixT, ++indexI);
             }
 
-            if (j < matrix.length && i === matrix.length) {
-                if (k < matrix[j].length) {
-                    matrixT[k].push(matrix[j][k]);
+            if (indexJ < matrix.length && indexI === matrix.length) {
+                if (indexK < matrix[indexJ].length) {
+                    matrixT[indexK].push(matrix[indexJ][indexK]);
 
-                    return memoMatrixTranspotion(matrix, matrixT, i, j, ++k);
+                    return memoMatrixTranspotion(
+                        matrix,
+                        matrixT,
+                        indexI,
+                        indexJ,
+                        ++indexK,
+                    );
                 }
-                return memoMatrixTranspotion(matrix, matrixT, i, ++j);
+                return memoMatrixTranspotion(matrix, matrixT, indexI, ++indexJ);
             }
 
             result = matrixT;
@@ -458,43 +467,49 @@ const memoMatrixTranspotion = (() => {
 const memoMatrixAddition = (() => {
     let memo = {};
 
-    return (matrix1, matrix2, resultMatrix, i, j, k) => {
+    return (matrix1, matrix2, resultMatrix, indexI, indexJ, indexK) => {
         let key = matrix1.join('') + matrix2.join('');
         let result = memo[key];
 
         if (result === undefined) {
             resultMatrix = resultMatrix || [];
-            i = i || 0;
-            j = j || 0;
-            k = k || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
+            indexK = indexK || 0;
 
-            if (i < matrix1.length) {
+            if (indexI < matrix1.length) {
                 resultMatrix.push([]);
 
-                return memoMatrixAddition(matrix1, matrix2, resultMatrix, ++i);
+                return memoMatrixAddition(
+                    matrix1,
+                    matrix2,
+                    resultMatrix,
+                    ++indexI,
+                );
             }
 
-            if (j < matrix1.length && i === matrix1.length) {
-                if (k < matrix1[j].length) {
-                    const number = matrix1[j][k] + matrix2[j][k];
+            if (indexJ < matrix1.length && indexI === matrix1.length) {
+                if (indexK < matrix1[indexJ].length) {
+                    const number =
+                        matrix1[indexJ][indexK] + matrix2[indexJ][indexK];
 
-                    resultMatrix[j].push(number);
+                    resultMatrix[indexJ].push(number);
 
                     return memoMatrixAddition(
                         matrix1,
                         matrix2,
                         resultMatrix,
-                        i,
-                        j,
-                        ++k,
+                        indexI,
+                        indexJ,
+                        ++indexK,
                     );
                 }
                 return memoMatrixAddition(
                     matrix1,
                     matrix2,
                     resultMatrix,
-                    i,
-                    ++j,
+                    indexI,
+                    ++indexJ,
                 );
             }
             result = resultMatrix;
@@ -511,40 +526,45 @@ const memoMatrixAddition = (() => {
 const memoDeleteRowWithZero = (() => {
     let memo = {};
 
-    return (array, resultArray, indexes, i, j) => {
+    return (array, resultArray, indexes, indexI, indexJ) => {
         let key = array.join('');
         let result = memo[key];
 
         if (result === undefined) {
             resultArray = resultArray || cloneArray(array);
             indexes = indexes || [];
-            i = i || 0;
-            j = j || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
-            if (i < array.length) {
-                if (array[i].includes(0)) {
-                    const index = i;
+            if (indexI < array.length) {
+                if (array[indexI].includes(0)) {
+                    const index = indexI;
 
                     if (!indexes.includes(index)) {
                         indexes.push(index);
                     }
                 }
-                return memoDeleteRowWithZero(array, resultArray, indexes, ++i);
+                return memoDeleteRowWithZero(
+                    array,
+                    resultArray,
+                    indexes,
+                    ++indexI,
+                );
             }
 
-            if (j === 0 && i === array.length) {
+            if (indexJ === 0 && indexI === array.length) {
                 indexes.reverse();
             }
 
-            if (j < indexes.length && i >= array.length) {
-                resultArray.splice(indexes[j], 1);
+            if (indexJ < indexes.length && indexI >= array.length) {
+                resultArray.splice(indexes[indexJ], 1);
 
                 return memoDeleteRowWithZero(
                     array,
                     resultArray,
                     indexes,
-                    i,
-                    ++j,
+                    indexI,
+                    ++indexJ,
                 );
             }
             result = resultArray;
@@ -560,22 +580,22 @@ const memoDeleteRowWithZero = (() => {
 const memoDeleteColumnWithZero = (() => {
     let memo = {};
 
-    return (array, resultArray, indexes, i, j, k, l) => {
+    return (array, resultArray, indexes, indexI, indexJ, indexK, indexL) => {
         let key = array.join('');
         let result = memo[key];
 
         if (result === undefined) {
             resultArray = resultArray || cloneArray(array);
             indexes = indexes || [];
-            i = i || 0;
-            j = j || 0;
-            k = k || 0;
-            l = l || 0;
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
+            indexK = indexK || 0;
+            indexL = indexL || 0;
 
-            if (i < resultArray.length) {
-                if (j < resultArray[i].length) {
-                    if (resultArray[j][i] === 0) {
-                        const index = i;
+            if (indexI < resultArray.length) {
+                if (indexJ < resultArray[indexI].length) {
+                    if (resultArray[indexJ][indexI] === 0) {
+                        const index = indexI;
 
                         if (!indexes.includes(index)) {
                             indexes.push(index);
@@ -586,8 +606,8 @@ const memoDeleteColumnWithZero = (() => {
                         array,
                         resultArray,
                         indexes,
-                        i,
-                        ++j,
+                        indexI,
+                        ++indexJ,
                     );
                 }
 
@@ -595,34 +615,34 @@ const memoDeleteColumnWithZero = (() => {
                     array,
                     resultArray,
                     indexes,
-                    ++i,
+                    ++indexI,
                 );
             }
 
-            if (k < indexes.length && i === resultArray.length) {
-                if (k === 0 && l === 0) {
+            if (indexK < indexes.length && indexI === resultArray.length) {
+                if (indexK === 0 && indexL === 0) {
                     indexes.reverse();
                 }
-                if (l < resultArray.length) {
-                    resultArray[l].splice(indexes[k], 1);
+                if (indexL < resultArray.length) {
+                    resultArray[indexL].splice(indexes[indexK], 1);
 
                     return memoDeleteColumnWithZero(
                         array,
                         resultArray,
                         indexes,
-                        i,
-                        j,
-                        k,
-                        ++l,
+                        indexI,
+                        indexJ,
+                        indexK,
+                        ++indexL,
                     );
                 }
                 return memoDeleteColumnWithZero(
                     array,
                     resultArray,
                     indexes,
-                    i,
-                    j,
-                    ++k,
+                    indexI,
+                    indexJ,
+                    ++indexK,
                 );
             }
 

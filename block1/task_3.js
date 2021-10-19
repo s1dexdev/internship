@@ -23,16 +23,12 @@ function calcQuantityOfDigits(number) {
 
     // Инициализация свойств объекта result
     for (let i = 0; i < numbers.length; i++) {
-        const digit = numbers[i];
-
-        result[digit] = 0;
+        result[numbers[i]] = 0;
     }
 
     // Подсчет количества чисел
     for (let i = 0; i < numbers.length; i++) {
-        const digit = numbers[i];
-
-        result[digit]++;
+        result[numbers[i]]++;
     }
 
     return result;

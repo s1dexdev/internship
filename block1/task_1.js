@@ -61,9 +61,5 @@ function isAnagram2(strOne, strTwo) {
         }
     }
 
-    if (arr.length === 0) {
-        return true;
-    }
-
-    return false;
+    return arr.length === 0;
 }

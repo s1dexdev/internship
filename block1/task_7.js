@@ -52,13 +52,14 @@ class Triangle {
     }
 
     calcArea() {
-        const perimeter = this.calcPerimeter();
-        const p = perimeter / 2;
-        const area = Math.sqrt(
-            p * ((p - this.#sideA) * (p - this.#sideB) * (p - this.#sideC)),
-        );
+        const semiPerimeter = this.calcPerimeter() / 2;
 
-        return area;
+        return Math.sqrt(
+            semiPerimeter *
+                ((semiPerimeter - this.#sideA) *
+                    (semiPerimeter - this.#sideB) *
+                    (semiPerimeter - this.#sideC)),
+        );
     }
 }
 
@@ -80,14 +81,10 @@ class Circle {
     }
 
     calcPerimeter() {
-        const perimeter = 2 * Math.PI * this.#radius;
-
-        return perimeter;
+        return 2 * Math.PI * this.#radius;
     }
 
     calcArea() {
-        const area = Math.PI * this.#radius ** 2;
-
-        return area;
+        return Math.PI * this.#radius ** 2;
     }
 }
