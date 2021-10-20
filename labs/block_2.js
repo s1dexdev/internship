@@ -212,7 +212,7 @@ Array.prototype.customReduce = function (callback, initialValue) {
 //             return { value: this.oldValue, done: false };
 //         }
 
-//         return { value: this.oldValue, done: true };
+//         return { value: undefined, done: true };
 //     },
 // };
 
