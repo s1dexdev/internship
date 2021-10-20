@@ -15,9 +15,9 @@ function convertNumberToArray(number) {
     return arr;
 }
 
-function convertDecimalToBinary(n) {
+function convertDecimalToBinary(value) {
     let result = [];
-    let number = n;
+    let number = value;
 
     while (number >= 1) {
         result.push(number % 2);
@@ -29,8 +29,8 @@ function convertDecimalToBinary(n) {
     return result;
 }
 
-function convertBinaryToDecimal(n) {
-    const numbers = convertNumberToArray(n);
+function convertBinaryToDecimal(value) {
+    const numbers = convertNumberToArray(value);
     let result = 0;
 
     for (let i = 0; i < numbers.length; i++) {

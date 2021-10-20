@@ -10,18 +10,10 @@ class Rectangle {
     }
 
     get perimeter() {
-        return this.calcPerimeter();
-    }
-
-    get area() {
-        return this.calcArea();
-    }
-
-    calcPerimeter() {
         return 2 * (this.#width + this.#height);
     }
 
-    calcArea() {
+    get area() {
         return this.#width * this.#height;
     }
 }
@@ -40,18 +32,10 @@ class Triangle {
     }
 
     get perimeter() {
-        return this.calcPerimeter();
-    }
-
-    get area() {
-        return this.calcArea();
-    }
-
-    calcPerimeter() {
         return this.#sideA + this.#sideB + this.#sideC;
     }
 
-    calcArea() {
+    get area() {
         const semiPerimeter = this.calcPerimeter() / 2;
 
         return Math.sqrt(
@@ -73,18 +57,10 @@ class Circle {
     }
 
     get perimeter() {
-        return this.calcPerimeter();
-    }
-
-    get area() {
-        return this.calcArea();
-    }
-
-    calcPerimeter() {
         return 2 * Math.PI * this.#radius;
     }
 
-    calcArea() {
+    get area() {
         return Math.PI * this.#radius ** 2;
     }
 }
