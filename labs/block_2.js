@@ -172,54 +172,54 @@ Array.prototype.customReduce = function (callback, initialValue) {
 
 // Solution 1 -----------
 
-// const obj = {
-//     oldValue: 0,
-//     newValue: 1,
-//     numberIter: 10,
+const obj = {
+    oldValue: 0,
+    newValue: 1,
+    numberIter: 10,
 
-//     *[Symbol.iterator]() {
-//         for (let i = 0; i < this.numberIter; i++) {
-//             yield this.oldValue;
+    *[Symbol.iterator]() {
+        for (let i = 0; i < this.numberIter; i++) {
+            yield this.oldValue;
 
-//             this.newValue = this.oldValue + this.newValue;
-//             this.oldValue = this.newValue - this.oldValue;
-//         }
-//     },
-// };
+            this.newValue = this.oldValue + this.newValue;
+            this.oldValue = this.newValue - this.oldValue;
+        }
+    },
+};
 
-// for (let fib of obj) {
-//     fib;
-// }
+for (let fib of obj) {
+    fib;
+}
 
 // Solution 2 -----------
 
-// const obj = {
-//     oldValue: 0,
-//     newValue: 1,
-//     numberIter: 10,
+const obj2 = {
+    oldValue: 0,
+    newValue: 1,
+    numberIter: 10,
 
-//     [Symbol.iterator]() {
-//         return this;
-//     },
+    [Symbol.iterator]() {
+        return this;
+    },
 
-//     next() {
-//         this.numberIter--;
+    next() {
+        this.numberIter--;
 
-//         if (this.numberIter >= 0) {
-//             this.newValue = this.oldValue + this.newValue;
-//             this.oldValue = this.newValue - this.oldValue;
+        if (this.numberIter >= 0) {
+            this.newValue = this.oldValue + this.newValue;
+            this.oldValue = this.newValue - this.oldValue;
 
-//             return { value: this.oldValue, done: false };
-//         }
+            return { value: this.oldValue, done: false };
+        }
 
-//         return { value: undefined, done: true };
-//     },
-// };
+        return { value: undefined, done: true };
+    },
+};
 
-// function* gen() {
-//     yield* obj;
-// }
+function* gen() {
+    yield* obj2;
+}
 
-// for (let fib of gen()) {
-//     fib;
-// }
+for (let fib of gen()) {
+    fib;
+}
