@@ -1,5 +1,53 @@
 'use strict';
 
+// Task 1 ----------
+
+Function.prototype.customCall = function (context, ...args) {
+    const func = this;
+
+    (function () {
+        context = context || this;
+
+        if (typeof context === 'object') {
+            let method = Symbol();
+
+            context[method] = func;
+            context[method](...args);
+
+            delete context[method];
+        } else {
+            const result = Object(context);
+
+            result.method = func;
+            result.method(...args);
+        }
+    })();
+};
+
+Function.prototype.customBind = function (context, ...args) {
+    const func = this;
+
+    return function (...args2) {
+        context = context || this;
+
+        if (typeof context === 'object') {
+            let method = Symbol();
+
+            context[method] = func;
+            context[method](...args, ...args2);
+
+            delete context[method];
+        } else {
+            const result = Object(context);
+
+            result.method = func;
+            result.method(...args, ...args2);
+        }
+    };
+};
+
+// Task 2 ----------
+
 Array.prototype.customMap = function (callback, thisValue) {
     thisValue = thisValue || undefined;
     const array = [...this];
@@ -119,3 +167,55 @@ Array.prototype.customReduce = function (callback, initialValue) {
 
     return accumulator;
 };
+
+// Task 3 ----------
+
+// Solution 1 -----------
+
+const obj = {
+    oldValue: 0,
+    newValue: 1,
+    numberIter: 10,
+
+    *[Symbol.iterator]() {
+        for (let i = 0; i < this.numberIter; i++) {
+            yield this.oldValue;
+
+            this.newValue = this.oldValue + this.newValue;
+            this.oldValue = this.newValue - this.oldValue;
+        }
+    },
+};
+
+for (let fib of obj) {
+    fib;
+}
+
+// Solution 2 -----------
+
+// const obj = {
+//     oldValue: 0,
+//     newValue: 1,
+//     numberIter: 10,
+
+//     [Symbol.iterator]() {
+//         return this;
+//     },
+
+//     next() {
+//         this.numberIter--;
+
+//         if (this.numberIter >= 0) {
+//             this.newValue = this.oldValue + this.newValue;
+//             this.oldValue = this.newValue - this.oldValue;
+
+//             return { value: this.oldValue, done: false };
+//         }
+
+//         return { value: this.oldValue, done: true };
+//     },
+// };
+
+// for (let fib of obj) {
+//     fib;
+// }
