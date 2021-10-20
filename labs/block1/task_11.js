@@ -34,9 +34,7 @@ function convertBinaryToDecimal(value) {
     let result = 0;
 
     for (let i = 0; i < numbers.length; i++) {
-        const number = numbers[i];
-
-        result += number * 2 ** (numbers.length - 1 - i);
+        result += numbers[i] * 2 ** (numbers.length - 1 - i);
     }
 
     return result;

@@ -6,9 +6,7 @@ function calcMeanValue(arr) {
     let sum = 0;
 
     for (let i = 0; i < arrayOfNumbers.length; i++) {
-        const number = arrayOfNumbers[i];
-
-        sum += number;
+        sum += arrayOfNumbers[i];
     }
 
     result = parseInt(sum / arrayOfNumbers.length);
