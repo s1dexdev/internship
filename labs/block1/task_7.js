@@ -36,7 +36,7 @@ class Triangle {
     }
 
     get area() {
-        const semiPerimeter = this.calcPerimeter() / 2;
+        const semiPerimeter = this.perimeter / 2;
 
         return Math.sqrt(
             semiPerimeter *
