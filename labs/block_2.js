@@ -172,24 +172,24 @@ Array.prototype.customReduce = function (callback, initialValue) {
 
 // Solution 1 -----------
 
-const obj = {
-    oldValue: 0,
-    newValue: 1,
-    numberIter: 10,
+// const obj = {
+//     oldValue: 0,
+//     newValue: 1,
+//     numberIter: 10,
 
-    *[Symbol.iterator]() {
-        for (let i = 0; i < this.numberIter; i++) {
-            yield this.oldValue;
+//     *[Symbol.iterator]() {
+//         for (let i = 0; i < this.numberIter; i++) {
+//             yield this.oldValue;
 
-            this.newValue = this.oldValue + this.newValue;
-            this.oldValue = this.newValue - this.oldValue;
-        }
-    },
-};
+//             this.newValue = this.oldValue + this.newValue;
+//             this.oldValue = this.newValue - this.oldValue;
+//         }
+//     },
+// };
 
-for (let fib of obj) {
-    fib;
-}
+// for (let fib of obj) {
+//     fib;
+// }
 
 // Solution 2 -----------
 
@@ -216,6 +216,10 @@ for (let fib of obj) {
 //     },
 // };
 
-// for (let fib of obj) {
+// function* gen() {
+//     yield* obj;
+// }
+
+// for (let fib of gen()) {
 //     fib;
 // }
