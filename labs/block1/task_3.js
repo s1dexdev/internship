@@ -17,7 +17,7 @@ function convertNumberToArray(number) {
 
 // Подсчет количества чисел
 
-function calcQuantitfDigits(number) {
+function calcQuantityDigits(number) {
     const numbers = convertNumberToArray(number);
     const result = {};
 

@@ -176,12 +176,10 @@ const memoCalcQuantityUniqWords = (() => {
             const arrayOfWords = str.toLowerCase().split(' ');
 
             if (indexI < arrayOfWords.length) {
-                const word = arrayOfWords[indexI];
-
                 count = count || 0;
 
                 if (indexJ < arrayOfWords.length) {
-                    if (word === arrayOfWords[indexJ]) {
+                    if (arrayOfWords[indexI] === arrayOfWords[indexJ]) {
                         count++;
                     }
 
@@ -195,7 +193,7 @@ const memoCalcQuantityUniqWords = (() => {
                 }
 
                 if (count === 1) {
-                    uniqWords.push(word);
+                    uniqWords.push(arrayOfWords[indexI]);
                 }
                 return memoCalcQuantityUniqWords(str, uniqWords, ++indexI);
             }
@@ -330,14 +328,14 @@ const memoConvertDecimalToBinary = (() => {
                 div = parseInt(div / 2);
 
                 return memoConvertDecimalToBinary(number, array, div);
-            } else {
-                array = Number(array.reverse().join(''));
-
-                result = array;
-                memo[key] = result;
-
-                return result;
             }
+
+            array = Number(array.reverse().join(''));
+
+            result = array;
+            memo[key] = result;
+
+            return result;
         }
 
         return result;
@@ -358,9 +356,7 @@ const memoConvertBinaryToDecimal = (() => {
             let resultNum = 0;
 
             if (index < array.length) {
-                const digit = array[index];
-
-                resultNum += digit * 2 ** (array.length - 1 - index);
+                resultNum += array[index] * 2 ** (array.length - 1 - index);
                 result =
                     resultNum +
                     memoConvertBinaryToDecimal(number, array, ++index);
@@ -396,9 +392,7 @@ const memoCalcMeanValue = (() => {
             let sum = 0;
 
             if (indexI < arrayOfNumbers.length) {
-                const number = arrayOfNumbers[indexI];
-
-                sum += number;
+                sum += arrayOfNumbers[indexI];
 
                 result = sum + memoCalcMeanValue(arr, ++indexI);
                 memo[key] = result;
@@ -539,10 +533,8 @@ const memoDeleteRowWithValue = (() => {
 
             if (indexI < array.length) {
                 if (array[indexI].includes(value)) {
-                    const index = indexI;
-
-                    if (!indexes.includes(index)) {
-                        indexes.push(index);
+                    if (!indexes.includes(indexI)) {
+                        indexes.push(indexI);
                     }
                 }
                 return memoDeleteRowWithValue(
@@ -608,10 +600,8 @@ const memoDeleteColumnWithValue = (() => {
             if (indexI < resultArray.length) {
                 if (indexJ < resultArray[indexI].length) {
                     if (resultArray[indexJ][indexI] === value) {
-                        const index = indexI;
-
-                        if (!indexes.includes(index)) {
-                            indexes.push(index);
+                        if (!indexes.includes(indexI)) {
+                            indexes.push(indexI);
                         }
                     }
 

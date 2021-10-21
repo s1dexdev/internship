@@ -7,11 +7,10 @@ function calcQuantityDigits(arr, callback, isFlag) {
 
     for (let i = 0; i < arr.length; i++) {
         let isPrime = true;
-        let number = arr[i];
 
         if (isFlag) {
-            for (let j = 2; j < number; j++) {
-                if (number % j === 0) {
+            for (let j = 2; j < arr[i]; j++) {
+                if (arr[i] % j === 0) {
                     isPrime = false;
 
                     break;
@@ -19,7 +18,7 @@ function calcQuantityDigits(arr, callback, isFlag) {
             }
         }
 
-        if (callback(number, isPrime)) {
+        if (callback(arr[i], isPrime)) {
             quantity++;
         }
     }

@@ -120,12 +120,10 @@ function calcQuantityUniqWords(str, uniqWords, indexI, indexJ, count) {
     const arrayOfWords = str.toLowerCase().split(' ');
 
     if (indexI < arrayOfWords.length) {
-        const word = arrayOfWords[indexI];
-
         count = count || 0;
 
         if (indexJ < arrayOfWords.length) {
-            if (word === arrayOfWords[indexJ]) {
+            if (arrayOfWords[indexI] === arrayOfWords[indexJ]) {
                 count++;
             }
 
@@ -139,7 +137,7 @@ function calcQuantityUniqWords(str, uniqWords, indexI, indexJ, count) {
         }
 
         if (count === 1) {
-            uniqWords.push(word);
+            uniqWords.push(arrayOfWords[indexI]);
         }
         return calcQuantityUniqWords(str, uniqWords, ++indexI);
     }
@@ -180,14 +178,14 @@ function fibonacci(number, numbersFib, indexI) {
 
     if (number <= 0) {
         return [];
-    } else {
-        if (indexI < number - 1) {
-            let fib = numbersFib[indexI] + numbersFib[indexI + 1];
+    }
 
-            numbersFib.push(fib);
+    if (indexI < number - 1) {
+        let fib = numbersFib[indexI] + numbersFib[indexI + 1];
 
-            return fibonacci(number, numbersFib, ++indexI);
-        }
+        numbersFib.push(fib);
+
+        return fibonacci(number, numbersFib, ++indexI);
     }
 
     return numbersFib;
@@ -198,9 +196,9 @@ function fibonacci(number, numbersFib, indexI) {
 function factorial(number) {
     if (number === 0) {
         return 1;
-    } else {
-        return number * factorial(number - 1);
     }
+
+    return number * factorial(number - 1);
 }
 
 // Task 9 ---------
@@ -236,14 +234,13 @@ function calcQuantityDigits(arr, callback, isFlag, indexI) {
 
     if (indexI < arr.length) {
         let isPrime = true;
-        let number = arr[indexI];
 
         if (isFlag) {
             (function isPrimeNumber(j) {
                 j = j || 2;
 
-                if (j < number) {
-                    if (number % j === 0) {
+                if (j < arr[indexI]) {
+                    if (arr[indexI] % j === 0) {
                         isPrime = false;
 
                         return;
@@ -254,7 +251,7 @@ function calcQuantityDigits(arr, callback, isFlag, indexI) {
             })();
         }
 
-        if (callback(number, isPrime)) {
+        if (callback(arr[indexI], isPrime)) {
             quantity++;
         }
 
@@ -293,9 +290,7 @@ function convertBinaryToDecimal(number, array, indexI) {
     let result = 0;
 
     if (indexI < array.length) {
-        const digit = array[indexI];
-
-        result += digit * 2 ** (array.length - 1 - indexI);
+        result += array[indexI] * 2 ** (array.length - 1 - indexI);
 
         return result + convertBinaryToDecimal(number, array, ++indexI);
     }
@@ -408,9 +403,7 @@ function calcMeanValue(arr, indexI) {
     let sum = 0;
 
     if (indexI < arrayOfNumbers.length) {
-        const number = arrayOfNumbers[indexI];
-
-        sum += number;
+        sum += arrayOfNumbers[indexI];
 
         return sum + calcMeanValue(arr, ++indexI);
     }
@@ -493,10 +486,8 @@ function deleteRowWithValue(array, value, result, indexes, indexI, indexJ) {
 
     if (indexI < array.length) {
         if (array[indexI].includes(value)) {
-            const index = indexI;
-
-            if (!indexes.includes(index)) {
-                indexes.push(index);
+            if (!indexes.includes(indexI)) {
+                indexes.push(indexI);
             }
         }
         return deleteRowWithValue(array, value, result, indexes, ++indexI);
@@ -543,10 +534,8 @@ function deleteColumnWithValue(
     if (indexI < array.length) {
         if (indexJ < array[indexI].length) {
             if (array[indexJ][indexI] === value) {
-                const index = indexI;
-
-                if (!indexes.includes(index)) {
-                    indexes.push(index);
+                if (!indexes.includes(indexI)) {
+                    indexes.push(indexI);
                 }
             }
             return deleteColumnWithValue(

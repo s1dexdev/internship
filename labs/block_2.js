@@ -22,6 +22,8 @@ Function.prototype.customCall = function (context, ...args) {
             result.method(...args);
         }
     })();
+
+    return context;
 };
 
 Function.prototype.customBind = function (context, ...args) {

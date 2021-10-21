@@ -5,17 +5,16 @@ function calcQuantityUniqWords(str) {
     const uniqWords = [];
 
     for (let i = 0; i < arrayOfWords.length; i++) {
-        const word = arrayOfWords[i];
         let count = 0;
 
         for (let j = 0; j < arrayOfWords.length; j++) {
-            if (word === arrayOfWords[j]) {
+            if (arrayOfWords[i] === arrayOfWords[j]) {
                 count++;
             }
         }
 
         if (count === 1) {
-            uniqWords.push(word);
+            uniqWords.push(arrayOfWords[i]);
         }
     }
 
