@@ -147,10 +147,10 @@ const arr = [10, 8, 14, 12, 16, 15, 26, 2, 1, 7, 6, 19, 20, 28, 27, 17, 29];
 
 // Task 2 -----------
 
-Array.prototype.sortBubble = function () {
+Array.prototype.sortBubble = function (callback) {
     for (let i = 0; i < this.length; i++) {
         for (let j = 0, k = 1; k < this.length; j++, k++) {
-            if (this[j] > this[k]) {
+            if (callback(this[j], this[k])) {
                 let tempValue = this[j];
 
                 this[j] = this[k];
@@ -162,7 +162,10 @@ Array.prototype.sortBubble = function () {
     return this;
 };
 
-Array.prototype.sortSelection = function () {
+arr.sortBubble((value1, value2) => value1 < value2);
+arr.sortBubble((value1, value2) => value1 > value2);
+
+Array.prototype.sortSelection = function (callback) {
     let indexMaxValue = null;
     let tempValue = null;
 
@@ -170,7 +173,7 @@ Array.prototype.sortSelection = function () {
         indexMaxValue = 0;
 
         for (let j = 1; j < i + 1; j++) {
-            if (this[j] > this[indexMaxValue]) {
+            if (callback(this[j], this[indexMaxValue])) {
                 indexMaxValue = j;
             }
         }
@@ -181,3 +184,6 @@ Array.prototype.sortSelection = function () {
 
     return this;
 };
+
+arr.sortSelection((value1, value2) => value1 > value2);
+arr.sortSelection((value1, value2) => value1 < value2);
