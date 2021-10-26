@@ -48,35 +48,30 @@ class Restaurant {
         let numberPersons = null;
         let result = this.#departments.reduce((acc, { title, employees }) => {
             numberPersons = 0;
-
             let salaryInfo = employees.reduce(
                 (accumulator, { position, salary, isFired }) => {
-                    if (!isFired) {
-                        // Максимальная и минимальная зарплаты
-                        if (flag) {
-                            if (!accumulator[position]) {
-                                accumulator[position] = {
-                                    maxSalary: salary,
-                                    minSalary: salary,
-                                };
-                            }
-
-                            let { maxSalary, minSalary } =
-                                accumulator[position];
-
-                            maxSalary < salary
-                                ? (maxSalary = salary)
-                                : maxSalary;
-
-                            minSalary > salary
-                                ? (minSalary = salary)
-                                : minSalary;
-
-                            // Сумма всех зарплат и средней
-                        } else {
-                            accumulator += salary;
-                            numberPersons++;
+                    // Максимальная и минимальная зарплаты
+                    if (flag && !isFired) {
+                        if (!accumulator[position]) {
+                            accumulator[position] = {
+                                maxSalary: salary,
+                                minSalary: salary,
+                            };
                         }
+
+                        if (accumulator[position].maxSalary < salary) {
+                            accumulator[position].maxSalary = salary;
+                        }
+
+                        if (accumulator[position].minSalary > salary) {
+                            accumulator[position].minSalary = salary;
+                        }
+                    }
+
+                    // Сумма всех зарплат и средней
+                    if (!flag && !isFired) {
+                        accumulator += salary;
+                        numberPersons++;
                     }
 
                     return accumulator;
@@ -93,13 +88,17 @@ class Restaurant {
     }
 
     calcFiredEmployees() {
-        let result = 0;
+        let counter = 0;
 
         this.#departments.forEach(({ employees }) =>
-            employees.forEach(({ isFired }) => (isFired ? ++result : result)),
+            employees.forEach(({ isFired }) => {
+                if (isFired) {
+                    counter++;
+                }
+            }),
         );
 
-        return result;
+        return counter;
     }
 
     findDepartmentWithoutHead(positionId) {
@@ -122,26 +121,6 @@ class Restaurant {
         return result;
     }
 }
-
-// const rest = new Restaurant({
-//     1: 'manager',
-//     2: 'barman',
-//     3: 'cook',
-//     4: 'waiter',
-// });
-
-// rest.createDepartment('bar', 1);
-// rest.createDepartment('kitchen', 2);
-// rest.createDepartment('hall', 3);
-
-// rest.addEmployee({
-//     name: 'Ivan',
-//     surname: 'Ivan',
-//     departmentId: 1,
-//     position: 1,
-//     salary: 1000,
-//     isFired: false,
-// });
 
 // rest.calcSalary(salary => salary); // Сумма всех зарплат по каждому отделу
 // rest.calcSalary((salary, numberPersons) => salary / numberPersons); // Средняя зарплата по отделу
