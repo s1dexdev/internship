@@ -1,107 +1,109 @@
 class Restaurant {
     #departments;
-    #employees;
-    #departmentNumbers = {};
-    #positionNumbers = { 1: 'manager', 2: 'barman', 3: 'cook', 4: 'waiter' };
+    #positionsId = { 1: 'manager', 2: 'barman', 3: 'cook', 4: 'waiter' };
 
     constructor() {
         this.#departments = [];
-        this.#employees = [];
     }
 
-    createDepartment(title, departmentNumber) {
+    findDepartment(id) {
+        return this.#departments.find(department => department.id === id);
+    }
+
+    createDepartment(title, id) {
         try {
-            if (departmentNumber in this.#departmentNumbers) {
+            const checkDepartment = this.findDepartment(id);
+
+            if (checkDepartment) {
                 throw new Error(
-                    'Sorry, but department with such number already exist.',
+                    'Sorry, but department with such id already exist.',
                 );
             }
 
-            this.#departmentNumbers[departmentNumber] = title;
-            this.#departments.push({ title, departmentNumber });
+            const newDepartment = { title, id, employees: [] };
+
+            this.#departments.push(newDepartment);
+
+            return newDepartment;
         } catch (error) {
             return error;
         }
     }
 
-    addEmployee(
-        name,
-        surname,
-        departmentNumber,
-        positionNumber,
-        salary,
-        isFired,
-    ) {
+    addEmployee(name, surname, departmentId, positionId, salary, isFired) {
         const employee = {
             name,
             surname,
-            departmentNumber,
-            position: this.#positionNumbers[positionNumber],
+            departmentId,
+            position: this.#positionsId[positionId],
             salary,
             isFired,
         };
 
-        this.#employees.push(employee);
+        const checkDepartment = this.findDepartment(departmentId);
+
+        if (checkDepartment) {
+            checkDepartment.employees.push(employee);
+
+            return checkDepartment;
+        }
+
+        return null;
     }
 
-    calcSalary(callback) {
-        const result = {};
-        let departName = null;
+    calcSalary(callback, flag) {
         let numberPersons = null;
-        let salary = null;
-
-        for (let key in this.#departmentNumbers) {
-            departName = this.#departmentNumbers[key];
+        let result = this.#departments.reduce((acc, { title, employees }) => {
             numberPersons = 0;
 
-            salary = this.#employees.reduce(
-                (acc, { departmentNumber, salary, isFired }) => {
-                    if (Number(key) === departmentNumber && !isFired) {
-                        acc += salary;
-                        numberPersons++;
+            let salaryInfo = employees.reduce(
+                (accumulator, { position, salary, isFired }) => {
+                    if (!isFired) {
+                        // Максимальная и минимальная зарплаты
+                        if (flag) {
+                            if (!accumulator[position]) {
+                                accumulator[position] = {
+                                    maxSalary: salary,
+                                    minSalary: salary,
+                                };
+                            }
+
+                            let { maxSalary, minSalary } =
+                                accumulator[position];
+
+                            maxSalary < salary
+                                ? (maxSalary = salary)
+                                : maxSalary;
+
+                            minSalary > salary
+                                ? (minSalary = salary)
+                                : minSalary;
+
+                            // Сумма всех зарплат и средней
+                        } else {
+                            accumulator += salary;
+                            numberPersons++;
+                        }
                     }
 
-                    return acc;
+                    return accumulator;
                 },
-                0,
+                flag ? {} : 0,
             );
 
-            result[departName] = callback(salary, numberPersons);
-        }
+            acc.push({ [title]: callback(salaryInfo, numberPersons) });
+
+            return acc;
+        }, []);
 
         return result;
     }
 
-    calcSalaryByPositions() {
-        const result = {};
-        let salary = null;
-
-        for (let key in this.#departmentNumbers) {
-            departName = this.#departmentNumbers[key];
-            salary = { maxSalary: 0, minSalary: 0 };
-
-            result[departName] = this.#employees.reduce(
-                (
-                    acc,
-                    { departmentNumber, position, salary, isFired },
-                    index,
-                ) => {
-                    if (Number(key) === departmentNumber && !isFired) {
-                        acc[position] = {
-                            maxSalary: salary,
-                            minSalary: salary,
-                        };
-                    }
-                },
-                {},
-            );
-        }
-    }
-
     calcFiredEmployees() {
-        const result = this.#employees.reduce(
-            (acc, { isFired }) => (isFired ? ++acc : acc),
-            0,
+        let result = 0;
+
+        this.#departments.forEach(({ employees }) =>
+            employees.forEach(({ isFired }) => (isFired ? ++result : result)),
         );
 
         return result;
@@ -111,11 +113,9 @@ class Restaurant {
         const result = this.#departments.reduce((acc, department) => {
             let counter = 0;
 
-            this.#employees.forEach(({ departmentNumber, position }) => {
-                if (department.departmentNumber === departmentNumber) {
-                    if (position === this.#positionNumbers[1]) {
-                        counter++;
-                    }
+            department.employees.forEach(({ position }) => {
+                if (position === this.#positionsId[1]) {
+                    counter++;
                 }
             });
 
@@ -130,28 +130,30 @@ class Restaurant {
     }
 }
 
-const rest = new Restaurant();
+// const rest = new Restaurant();
 
-rest.createDepartment('bar', 1);
-rest.createDepartment('kitchen', 2);
-rest.createDepartment('hall', 3);
+// rest.createDepartment('bar', 1);
+// rest.createDepartment('kitchen', 2);
+// rest.createDepartment('hall', 3);
 
-rest.addEmployee('Ivan', 'Ivan', 1, 1, 1000, false);
-rest.addEmployee('Petr', 'Petr', 1, 2, 500, false);
-rest.addEmployee('Dan', 'Dan', 1, 2, 500, true);
+// rest.addEmployee('Ivan', 'Ivan', 1, 1, 1000, false);
+// rest.addEmployee('Ivan', 'Ivan', 1, 1, 900, false);
+// rest.addEmployee('Dan', 'Dan', 1, 2, 600, false);
+// rest.addEmployee('Petr', 'Petr', 1, 2, 400, false);
+// rest.addEmployee('Dan', 'Dan', 1, 2, 800, false);
+// rest.addEmployee('Petr', 'Petr', 1, 2, 400, false);
+// rest.addEmployee('Dan', 'Dan', 1, 2, 100, false);
+// rest.addEmployee('Petr', 'Petr', 1, 2, 400, true);
 
-rest.addEmployee('Tony', 'Tony', 2, 1, 700, false);
-rest.addEmployee('Rad', 'Rad', 2, 3, 600, false);
-rest.addEmployee('Bobby', 'Bobby', 2, 3, 600, true);
+// rest.addEmployee('Tony', 'Tony', 2, 1, 700, false);
+// rest.addEmployee('Rad', 'Rad', 2, 3, 600, true);
+// rest.addEmployee('Bobby', 'Bobby', 2, 3, 300, false);
 
-rest.addEmployee('Ella', 'Ella', 3, 1, 800, false);
-rest.addEmployee('Rita', 'Rita', 3, 4, 400, true);
-rest.addEmployee('Neva', 'Neva', 3, 4, 400, false);
-rest.addEmployee('Neva', 'Neva', 3, 4, 400, false);
+// rest.addEmployee('Ella', 'Ella', 3, 1, 800, false);
+// rest.addEmployee('Rita', 'Rita', 3, 4, 400, true);
+// rest.addEmployee('Neva', 'Neva', 3, 4, 400, false);
+// rest.addEmployee('Neva', 'Neva', 3, 4, 400, false);
 
-// console.log(rest);
-
-rest.calcSalary(salary => salary); // Сумма всех зарплат по каждому отделу
-rest.calcSalary((salary, numberPersons) => salary / numberPersons); // Средняя зарплата по отделу
-
-// console.log(rest.findDepartmentWithoutHead());
+console.log(rest.calcSalary(salary => salary)); // Сумма всех зарплат по каждому отделу
+console.log(rest.calcSalary((salary, numberPersons) => salary / numberPersons)); // Средняя зарплата по отделу
+console.log(rest.calcSalary(salary => salary, true)); // Поиск самой большой и самой маленькой зарплаты в разрезе каждого отдела и должности
