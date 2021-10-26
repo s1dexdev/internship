@@ -1,9 +1,10 @@
 class Restaurant {
     #departments;
-    #positionsId = { 1: 'manager', 2: 'barman', 3: 'cook', 4: 'waiter' };
+    #positionsId;
 
-    constructor() {
+    constructor(positions) {
         this.#departments = [];
+        this.#positionsId = positions || {};
     }
 
     findDepartment(id) {
@@ -30,19 +31,11 @@ class Restaurant {
         }
     }
 
-    addEmployee(name, surname, departmentId, positionId, salary, isFired) {
-        const employee = {
-            name,
-            surname,
-            departmentId,
-            position: this.#positionsId[positionId],
-            salary,
-            isFired,
-        };
-
-        const checkDepartment = this.findDepartment(departmentId);
+    addEmployee(employee) {
+        const checkDepartment = this.findDepartment(employee.departmentId);
 
         if (checkDepartment) {
+            employee.position = this.#positionsId[employee.position];
             checkDepartment.employees.push(employee);
 
             return checkDepartment;
@@ -109,12 +102,12 @@ class Restaurant {
         return result;
     }
 
-    findDepartmentWithoutHead() {
+    findDepartmentWithoutHead(id) {
         const result = this.#departments.reduce((acc, department) => {
             let counter = 0;
 
             department.employees.forEach(({ position }) => {
-                if (position === this.#positionsId[1]) {
+                if (position === this.#positionsId[id]) {
                     counter++;
                 }
             });
@@ -130,30 +123,26 @@ class Restaurant {
     }
 }
 
-// const rest = new Restaurant();
+// const rest = new Restaurant({
+//     1: 'manager',
+//     2: 'barman',
+//     3: 'cook',
+//     4: 'waiter',
+// });
 
 // rest.createDepartment('bar', 1);
 // rest.createDepartment('kitchen', 2);
 // rest.createDepartment('hall', 3);
 
-// rest.addEmployee('Ivan', 'Ivan', 1, 1, 1000, false);
-// rest.addEmployee('Ivan', 'Ivan', 1, 1, 900, false);
-// rest.addEmployee('Dan', 'Dan', 1, 2, 600, false);
-// rest.addEmployee('Petr', 'Petr', 1, 2, 400, false);
-// rest.addEmployee('Dan', 'Dan', 1, 2, 800, false);
-// rest.addEmployee('Petr', 'Petr', 1, 2, 400, false);
-// rest.addEmployee('Dan', 'Dan', 1, 2, 100, false);
-// rest.addEmployee('Petr', 'Petr', 1, 2, 400, true);
+// rest.addEmployee({
+//     name: 'Ivan',
+//     surname: 'Ivan',
+//     departmentId: 1,
+//     position: 1,
+//     salary: 1000,
+//     isFired: false,
+// });
 
-// rest.addEmployee('Tony', 'Tony', 2, 1, 700, false);
-// rest.addEmployee('Rad', 'Rad', 2, 3, 600, true);
-// rest.addEmployee('Bobby', 'Bobby', 2, 3, 300, false);
-
-// rest.addEmployee('Ella', 'Ella', 3, 1, 800, false);
-// rest.addEmployee('Rita', 'Rita', 3, 4, 400, true);
-// rest.addEmployee('Neva', 'Neva', 3, 4, 400, false);
-// rest.addEmployee('Neva', 'Neva', 3, 4, 400, false);
-
-console.log(rest.calcSalary(salary => salary)); // Сумма всех зарплат по каждому отделу
-console.log(rest.calcSalary((salary, numberPersons) => salary / numberPersons)); // Средняя зарплата по отделу
-console.log(rest.calcSalary(salary => salary, true)); // Поиск самой большой и самой маленькой зарплаты в разрезе каждого отдела и должности
+// rest.calcSalary(salary => salary); // Сумма всех зарплат по каждому отделу
+// rest.calcSalary((salary, numberPersons) => salary / numberPersons); // Средняя зарплата по отделу
+// rest.calcSalary(salary => salary, true); // Поиск самой большой и самой маленькой зарплаты в разрезе каждого отдела и должности
