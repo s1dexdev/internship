@@ -102,12 +102,12 @@ class Restaurant {
         return result;
     }
 
-    findDepartmentWithoutHead(id) {
+    findDepartmentWithoutHead(positionId) {
         const result = this.#departments.reduce((acc, department) => {
             let counter = 0;
 
             department.employees.forEach(({ position }) => {
-                if (position === this.#positionsId[id]) {
+                if (position === this.#positionsId[positionId]) {
                     counter++;
                 }
             });
