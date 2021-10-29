@@ -44,10 +44,11 @@ class Restaurant {
         return null;
     }
 
-    calcSalary(callback, flag) {
+    calculateSalary(callback, flag) {
         let numberPersons = null;
         let result = this.#departments.reduce((acc, { title, employees }) => {
             numberPersons = 0;
+
             let salaryInfo = employees.reduce(
                 (accumulator, { position, salary, isFired }) => {
                     // Максимальная и минимальная зарплаты
@@ -87,12 +88,12 @@ class Restaurant {
         return result;
     }
 
-    calcFiredEmployees() {
+    getNumberEmployees(callback) {
         let counter = 0;
 
         this.#departments.forEach(({ employees }) =>
-            employees.forEach(({ isFired }) => {
-                if (isFired) {
+            employees.forEach(employee => {
+                if (callback(employee)) {
                     counter++;
                 }
             }),
@@ -122,6 +123,44 @@ class Restaurant {
     }
 }
 
-// rest.calcSalary(salary => salary); // Сумма всех зарплат по каждому отделу
-// rest.calcSalary((salary, numberPersons) => salary / numberPersons); // Средняя зарплата по отделу
-// rest.calcSalary(salary => salary, true); // Поиск самой большой и самой маленькой зарплаты в разрезе каждого отдела и должности
+const rest = new Restaurant({
+    1: 'cook',
+    2: 'barman',
+    3: 'waiter',
+    4: 'manager',
+});
+
+rest.createDepartment('kitchen', 1);
+
+rest.addEmployee({
+    name: 'ddd',
+    surName: 'aaa',
+    departmentId: 1,
+    position: 4,
+    salary: 1000,
+    isFired: false,
+});
+
+rest.addEmployee({
+    name: 'ddd',
+    surName: 'aaa',
+    departmentId: 1,
+    position: 1,
+    salary: 700,
+    isFired: false,
+});
+
+rest.addEmployee({
+    name: 'ddd',
+    surName: 'aaa',
+    departmentId: 1,
+    position: 1,
+    salary: 500,
+    isFired: false,
+});
+
+console.log(rest);
+
+console.log(rest.calculateSalary(employee => employee.totalSalary)); // Сумма всех зарплат по каждому отделу
+// rest.calculateSalary((salary, numberPersons) => salary / numberPersons); // Средняя зарплата по отделу
+// rest.calculateSalary(salary => salary, true); // Поиск самой большой и самой маленькой зарплаты в разрезе каждого отдела и должности
