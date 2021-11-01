@@ -17,7 +17,7 @@ class Restaurant {
 
             if (checkDepartment) {
                 throw new Error(
-                    'Sorry, but department with such id already exist.',
+                    'Sorry, but department with such id already exist.'
                 );
             }
 
