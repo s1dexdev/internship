@@ -44,7 +44,7 @@ class Restaurant {
         return null;
     }
 
-    getAmountSalary(callback) {
+    getAmountSalaryTotal(callback) {
         return this.#departments.reduce((acc, { title, employees }) => {
             let counterPersons = 0;
             let salaryInfo = employees.reduce(
