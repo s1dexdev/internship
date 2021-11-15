@@ -51,7 +51,6 @@ function convertNumberToArray(number: number): number[] {
     return arr;
 }
 
-
 interface IResult {
     [key: number]: number;
 }
@@ -135,43 +134,54 @@ function fibonacci(number: number): number[] {
 
 // Task 7
 
-class Rectangle {
+abstract class Figure {
+    abstract perimeter(): number; 
+    abstract area(): number;
+}
+
+// Rectangle
+
+class Rectangle extends Figure {
     private width: number;
     private height: number;
 
     constructor(width: number, height: number) {
+        super();
+
         this.width = width;
         this.height = height;
     }
 
-    get perimeter(): number {
+    public perimeter(): number {
         return 2 * (this.width + this.height);
     }
 
-    get area(): number {
+    public area(): number {
         return this.width * this.height;
     }
 }
 
 //Triangle
 
-class Triangle {
+class Triangle extends Figure {
     private sideA: number;
     private sideB: number;
     private sideC: number;
 
     constructor(sideA: number, sideB: number, sideC: number) {
+        super();
+
         this.sideA = sideA;
         this.sideB = sideB;
         this.sideC = sideC;
     }
 
-    get perimeter(): number {
+    public perimeter(): number {
         return this.sideA + this.sideB + this.sideC;
     }
 
-    get area(): number {
-        const semiPerimeter: number = this.perimeter / 2;
+    public area(): number {
+        const semiPerimeter: number = this.perimeter() / 2;
 
         return Math.sqrt(
             semiPerimeter *
@@ -184,21 +194,36 @@ class Triangle {
 
 // Circle
 
-class Circle {
+class Circle extends Figure {
     private radius: number;
 
     constructor(radius: number) {
+        super();
+
         this.radius = radius;
     }
 
-    get perimeter(): number {
+    public perimeter(): number {
         return 2 * Math.PI * this.radius;
     }
 
-    get area(): number {
+    public area(): number {
         return Math.PI * this.radius ** 2;
     }
 }
+
+function getMaxPerimFigure(arr:Figure[]): Figure {
+    let result: Figure = arr[0];
+
+    for(let i: number = 0; i < arr.length; i++) {
+        if(arr[i].perimeter() > result.perimeter()) {
+            result = arr[i];
+        }
+    }
+
+    return result;
+}
+
 
 // Task 8
 function factorial(number: number): number {
@@ -289,10 +314,10 @@ function convertBinaryToDecimal(value: number): number {
 
 // Task 12
 
-function calcSumDigitsArr(arr: number[][], callback:cb): number {
+function calcSumDigitsArr(arr: number[][], callback: cb): number {
     let sum: number = 0;
 
-    for (let i:number = 0; i < arr.length; i++) {
+    for (let i: number = 0; i < arr.length; i++) {
         for (let j: number = 0; j < arr[i].length; j++) {
             let number: number = arr[i][j];
 
@@ -305,7 +330,11 @@ function calcSumDigitsArr(arr: number[][], callback:cb): number {
     return sum;
 }
 
-function calcQuantityDigitsArr(arr: number[][], callback:cb, isFlag:boolean): number {
+function calcQuantityDigitsArr(
+    arr: number[][],
+    callback: cb,
+    isFlag: boolean,
+): number {
     isFlag = isFlag || false;
     let quantity: number = 0;
 
@@ -335,7 +364,7 @@ function calcQuantityDigitsArr(arr: number[][], callback:cb, isFlag:boolean): nu
 
 // Task 13
 
-function getSumElems(min: number, max: number, callback:cb): number {
+function getSumElems(min: number, max: number, callback: cb): number {
     let sum: number = 0;
 
     for (let i: number = min; i <= max; i++) {
@@ -403,7 +432,7 @@ function matrixAddition(matrix1: number[][], matrix2: number[][]): number[][] {
 
 // Task 17
 
-function deleteRowWithValue(array: number[][], value:number) {
+function deleteRowWithValue(array: number[][], value: number) {
     value = value || 0;
     let result: number[][] = array;
     let indexes: number[] = [];
@@ -418,7 +447,7 @@ function deleteRowWithValue(array: number[][], value:number) {
         }
     }
 
-    indexes.reverse(); 
+    indexes.reverse();
 
     for (let j: number = 0; j < indexes.length; j++) {
         result.splice(indexes[j], 1);
@@ -444,7 +473,7 @@ function deleteColumnWithValue(array: number[][], value: number) {
         }
     }
 
-    indexes.reverse(); 
+    indexes.reverse();
 
     for (let i: number = 0; i < indexes.length; i++) {
         for (let j: number = 0; j < array.length; j++) {
