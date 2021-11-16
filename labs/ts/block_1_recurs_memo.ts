@@ -30,7 +30,7 @@ function cloneArray(arr: number[][]): number[][] {
 
 // Task 1 ---------
 
-type callbackAnagram = (
+type anagram = (
     strOne: string,
     strTwo: string,
     indexI: number,
@@ -43,7 +43,7 @@ interface IMemoAnagram {
     [key: string]: boolean;
 }
 
-const memoAnagram: callbackAnagram = ((): callbackAnagram => {
+const memoAnagram: anagram = ((): anagram => {
     let memo: IMemoAnagram = {};
 
     return (strOne, strTwo, indexI, counter1, counter2, indexJ) => {
@@ -124,72 +124,69 @@ interface ICalcResult {
     [key: number]: number;
 }
 
-interface IMemoCalcQuantityDigits {
+interface IMemoQuantityDigits {
     [key: string]: ICalcResult;
 }
 
-type callbackQuantityDigits = (
+type quantityDigits = (
     number: number,
     calcResult: ICalcResult,
     indexI: number,
     indexJ: number,
 ) => ICalcResult;
 
-const memoCalcQuantityDigigtsInNumber: callbackQuantityDigits =
-    ((): callbackQuantityDigits => {
-        let memo: IMemoCalcQuantityDigits = {};
+const memoCalcQuantityDigigtsInNumber: quantityDigits = ((): quantityDigits => {
+    let memo: IMemoQuantityDigits = {};
 
-        return (number, calcResult, indexI, indexJ) => {
-            const key: number = number;
-            let result: ICalcResult = memo[key];
+    return (number, calcResult, indexI, indexJ) => {
+        const key: number = number;
+        let result: ICalcResult = memo[key];
 
-            if (result === undefined) {
-                calcResult = calcResult || {};
-                indexI = indexI || 0;
-                indexJ = indexJ || 0;
+        if (result === undefined) {
+            calcResult = calcResult || {};
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
-                const numbers: number[] = convertNumberToArray(number);
+            const numbers: number[] = convertNumberToArray(number);
 
-                // Инициализация свойств объекта calcResult
-                if (indexI < numbers.length && indexJ === 0) {
-                    calcResult[numbers[indexI]] = 0;
+            if (indexI < numbers.length && indexJ === 0) {
+                calcResult[numbers[indexI]] = 0;
 
-                    return memoCalcQuantityDigigtsInNumber(
-                        number,
-                        calcResult,
-                        ++indexI,
-                        indexJ,
-                    );
-                }
-
-                // Подсчет количества чисел
-                if (indexJ < numbers.length && indexI === numbers.length) {
-                    calcResult[numbers[indexJ]]++;
-
-                    return memoCalcQuantityDigigtsInNumber(
-                        number,
-                        calcResult,
-                        indexI,
-                        ++indexJ,
-                    );
-                }
-
-                result = calcResult;
-                memo[key] = result;
-
-                return result;
+                return memoCalcQuantityDigigtsInNumber(
+                    number,
+                    calcResult,
+                    ++indexI,
+                    indexJ,
+                );
             }
 
+            if (indexJ < numbers.length && indexI === numbers.length) {
+                calcResult[numbers[indexJ]]++;
+
+                return memoCalcQuantityDigigtsInNumber(
+                    number,
+                    calcResult,
+                    indexI,
+                    ++indexJ,
+                );
+            }
+
+            result = calcResult;
+            memo[key] = result;
+
             return result;
-        };
-    })();
+        }
+
+        return result;
+    };
+})();
 
 // Task 4
 
 interface IMemoUniqWords {
     [key: string]: number;
 }
-type callbackUniqWords = (
+type uniqWords = (
     str: string,
     uniqWords: string[],
     indexI: number,
@@ -197,7 +194,7 @@ type callbackUniqWords = (
     count?: number,
 ) => number;
 
-const memoCalcQuantityUniqWords: callbackUniqWords = ((): callbackUniqWords => {
+const memoCalcQuantityUniqWords: uniqWords = ((): uniqWords => {
     let memo: IMemoUniqWords = {};
 
     return (str, uniqWords, indexI, indexJ, count) => {
@@ -254,58 +251,52 @@ interface IMemoQuantityWords {
     [key: string]: IResultQuantityWords;
 }
 
-type callbackQuantityWords = (
+type quantityWords = (
     str: string,
     calcResult: IResultQuantityWords,
     indexI: number,
     indexJ?: number,
 ) => IResultQuantityWords;
 
-const memoCalcQuantityWords: callbackQuantityWords =
-    ((): callbackQuantityWords => {
-        let memo: IMemoQuantityWords = {};
+const memoCalcQuantityWords: quantityWords = ((): quantityWords => {
+    let memo: IMemoQuantityWords = {};
 
-        return (str, calcResult, indexI, indexJ) => {
-            const key: string = str.toLowerCase().trim();
-            let result: IResultQuantityWords = memo[key];
+    return (str, calcResult, indexI, indexJ) => {
+        const key: string = str.toLowerCase().trim();
+        let result: IResultQuantityWords = memo[key];
 
-            if (result === undefined) {
-                calcResult = calcResult || {};
-                indexI = indexI || 0;
-                indexJ = indexJ || 0;
+        if (result === undefined) {
+            calcResult = calcResult || {};
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
 
-                const arrayOfWords: string[] = str.toLowerCase().split(' ');
+            const arrayOfWords: string[] = str.toLowerCase().split(' ');
 
-                if (indexI < arrayOfWords.length && indexJ === 0) {
-                    calcResult[arrayOfWords[indexI]] = 0;
+            if (indexI < arrayOfWords.length && indexJ === 0) {
+                calcResult[arrayOfWords[indexI]] = 0;
 
-                    return memoCalcQuantityWords(str, calcResult, ++indexI);
-                }
-
-                if (
-                    indexJ < arrayOfWords.length &&
-                    indexI === arrayOfWords.length
-                ) {
-                    const word: string = arrayOfWords[indexJ];
-
-                    calcResult[word]++;
-
-                    return memoCalcQuantityWords(
-                        str,
-                        calcResult,
-                        indexI,
-                        ++indexJ,
-                    );
-                }
-
-                result = calcResult;
-                memo[key] = result;
-
-                return result;
+                return memoCalcQuantityWords(str, calcResult, ++indexI);
             }
+
+            if (
+                indexJ < arrayOfWords.length &&
+                indexI === arrayOfWords.length
+            ) {
+                const word: string = arrayOfWords[indexJ];
+
+                calcResult[word]++;
+
+                return memoCalcQuantityWords(str, calcResult, indexI, ++indexJ);
+            }
+
+            result = calcResult;
+            memo[key] = result;
+
             return result;
-        };
-    })();
+        }
+        return result;
+    };
+})();
 
 // Task 6
 
@@ -313,13 +304,13 @@ interface IMemoFib {
     [key: number]: number[];
 }
 
-type callbackMemoFib = (
+type fibonacci = (
     number: number,
     numbersFib: number[],
     indexI: number,
 ) => number[];
 
-const memoFibonacci: callbackMemoFib = ((): callbackMemoFib => {
+const memoFibonacci: fibonacci = ((): fibonacci => {
     let memo: IMemoFib = {};
 
     return (number, numbersFib, indexI) => {
@@ -337,7 +328,7 @@ const memoFibonacci: callbackMemoFib = ((): callbackMemoFib => {
             if (indexI < number - 1) {
                 let fib: number = numbersFib[indexI] + numbersFib[indexI + 1];
 
-                memo[indexI + 1] = [...numbersFib]; //Мемоизация вычислений для чисел < number
+                memo[indexI + 1] = [...numbersFib];
                 numbersFib.push(fib);
                 result = memoFibonacci(number, numbersFib, ++indexI);
                 memo[key] = result;
@@ -356,9 +347,9 @@ interface IMemoFactorial {
     [key: number]: number;
 }
 
-type callbackFactorial = (number: number) => number;
+type factorial = (number: number) => number;
 
-const memoFactorial: callbackFactorial = ((): callbackFactorial => {
+const memoFactorial: factorial = ((): factorial => {
     let memo: IMemoFactorial = {};
 
     return number => {
@@ -455,13 +446,13 @@ const memoConvertBinaryToDecimal: binaryToDecimal = ((): binaryToDecimal => {
 
 // Task 14
 
-type calcMeanValue = (arr: number[][], indexI: number) => number;
+type meanValue = (arr: number[][], indexI: number) => number;
 
 interface IMemoMeanValue {
     [key: string]: number;
 }
 
-const memoCalcMeanValue: calcMeanValue = ((): calcMeanValue => {
+const memoCalcMeanValue: meanValue = ((): meanValue => {
     let memo: IMemoMeanValue = {};
 
     return (arr, indexI) => {
