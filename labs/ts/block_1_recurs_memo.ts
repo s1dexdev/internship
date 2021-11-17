@@ -28,14 +28,14 @@ function cloneArray(arr: number[][]): number[][] {
     return newArray;
 }
 
-// Task 1 ---------
+// Task 1
 
 type callbackAnagram = (
     strOne: string,
     strTwo: string,
-    indexI: number,
-    counter1: number,
-    counter2: number,
+    indexI?: number,
+    counter1?: number,
+    counter2?: number,
     indexJ?: number,
 ) => boolean;
 
@@ -118,7 +118,7 @@ const memoAnagram: callbackAnagram = ((): callbackAnagram => {
     };
 })();
 
-// Task 3 ---------
+// Task 3
 
 interface ICalcResult {
     [key: number]: number;
@@ -130,9 +130,9 @@ interface IMemoCalcQuantityDigits {
 
 type callbackQuantityDigits = (
     number: number,
-    calcResult: ICalcResult,
-    indexI: number,
-    indexJ: number,
+    calcResult?: ICalcResult,
+    indexI?: number,
+    indexJ?: number,
 ) => ICalcResult;
 
 const memoCalcQuantityDigigtsInNumber: callbackQuantityDigits =
@@ -150,7 +150,6 @@ const memoCalcQuantityDigigtsInNumber: callbackQuantityDigits =
 
                 const numbers: number[] = convertNumberToArray(number);
 
-                // Инициализация свойств объекта calcResult
                 if (indexI < numbers.length && indexJ === 0) {
                     calcResult[numbers[indexI]] = 0;
 
@@ -162,7 +161,6 @@ const memoCalcQuantityDigigtsInNumber: callbackQuantityDigits =
                     );
                 }
 
-                // Подсчет количества чисел
                 if (indexJ < numbers.length && indexI === numbers.length) {
                     calcResult[numbers[indexJ]]++;
 
@@ -191,8 +189,8 @@ interface IMemoUniqWords {
 }
 type callbackUniqWords = (
     str: string,
-    uniqWords: string[],
-    indexI: number,
+    uniqWords?: string[],
+    indexI?: number,
     indexJ?: number,
     count?: number,
 ) => number;
@@ -256,8 +254,8 @@ interface IMemoQuantityWords {
 
 type callbackQuantityWords = (
     str: string,
-    calcResult: IResultQuantityWords,
-    indexI: number,
+    calcResult?: IResultQuantityWords,
+    indexI?: number,
     indexJ?: number,
 ) => IResultQuantityWords;
 
@@ -315,8 +313,8 @@ interface IMemoFib {
 
 type callbackMemoFib = (
     number: number,
-    numbersFib: number[],
-    indexI: number,
+    numbersFib?: number[],
+    indexI?: number,
 ) => number[];
 
 const memoFibonacci: callbackMemoFib = ((): callbackMemoFib => {
@@ -380,14 +378,18 @@ const memoFactorial: callbackFactorial = ((): callbackFactorial => {
 
 // Task 11
 
-interface IMemoNotation {
+interface IMemoConvertNotation {
     [key: number]: number;
 }
 
-type decimalToBinary = (number: number, array: number[], div: number) => number;
+type decimalToBinary = (
+    number: number,
+    array?: number[],
+    div?: number,
+) => number;
 
 const memoConvertDecimalToBinary: decimalToBinary = ((): decimalToBinary => {
-    let memo: IMemoNotation = {};
+    let memo: IMemoConvertNotation = {};
 
     return (number, array, div) => {
         let key: number = number;
@@ -416,12 +418,12 @@ const memoConvertDecimalToBinary: decimalToBinary = ((): decimalToBinary => {
 
 type binaryToDecimal = (
     number: number,
-    array: number[],
-    index: number,
+    array?: number[],
+    index?: number,
 ) => number;
 
 const memoConvertBinaryToDecimal: binaryToDecimal = ((): binaryToDecimal => {
-    let memo: IMemoNotation = {};
+    let memo: IMemoConvertNotation = {};
 
     return (number, array, index) => {
         let key: number = number;
@@ -455,7 +457,7 @@ const memoConvertBinaryToDecimal: binaryToDecimal = ((): binaryToDecimal => {
 
 // Task 14
 
-type calcMeanValue = (arr: number[][], indexI: number) => number;
+type calcMeanValue = (arr: number[][], indexI?: number) => number;
 
 interface IMemoMeanValue {
     [key: string]: number;
@@ -499,8 +501,8 @@ const memoCalcMeanValue: calcMeanValue = ((): calcMeanValue => {
 
 type matrixTranspotion = (
     matrix: number[][],
-    matrixT: number[][],
-    indexI: number,
+    matrixT?: number[][],
+    indexI?: number,
     indexJ?: number,
     indexK?: number,
 ) => number[][];
@@ -557,8 +559,8 @@ const memoMatrixTranspotion: matrixTranspotion = ((): matrixTranspotion => {
 type matrixAddition = (
     matrix1: number[][],
     matrix2: number[][],
-    resultMatrix: number[][],
-    indexI: number,
+    resultMatrix?: number[][],
+    indexI?: number,
     indexJ?: number,
     indexK?: number,
 ) => number[][];
@@ -616,6 +618,168 @@ const memoMatrixAddition: matrixAddition = ((): matrixAddition => {
 
             return result;
         }
+        return result;
+    };
+})();
+
+// Task 17
+type deleteValue = (
+    array: number[][],
+    value?: number,
+    resultArray?: number[][],
+    indexes?: number[],
+    indexI?: number,
+    indexJ?: number,
+    indexK?: number,
+    indexL?: number,
+) => number[][];
+
+interface IMemoDeleteValue {
+    [key: string]: number[][];
+}
+
+const memoDeleteRowWithValue: deleteValue = ((): deleteValue => {
+    let memo: IMemoDeleteValue = {};
+
+    return (array, value, resultArray, indexes, indexI, indexJ) => {
+        value = value || 0;
+        let key: string = [array, value].join('');
+        let result: number[][] = memo[key];
+
+        if (result === undefined) {
+            resultArray = resultArray || cloneArray(array);
+            indexes = indexes || [];
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
+
+            if (indexI < array.length) {
+                if (array[indexI].includes(value)) {
+                    if (!indexes.includes(indexI)) {
+                        indexes.push(indexI);
+                    }
+                }
+                return memoDeleteRowWithValue(
+                    array,
+                    value,
+                    resultArray,
+                    indexes,
+                    ++indexI,
+                );
+            }
+
+            if (indexJ === 0 && indexI === array.length) {
+                indexes.reverse();
+            }
+
+            if (indexJ < indexes.length && indexI >= array.length) {
+                resultArray.splice(indexes[indexJ], 1);
+
+                return memoDeleteRowWithValue(
+                    array,
+                    value,
+                    resultArray,
+                    indexes,
+                    indexI,
+                    ++indexJ,
+                );
+            }
+            result = resultArray;
+            memo[key] = result;
+
+            return result;
+        }
+
+        return result;
+    };
+})();
+
+const memoDeleteColumnWithValue: deleteValue = ((): deleteValue => {
+    let memo: IMemoDeleteValue = {};
+
+    return (
+        array,
+        value,
+        resultArray,
+        indexes,
+        indexI,
+        indexJ,
+        indexK,
+        indexL,
+    ) => {
+        value = value || 0;
+        let key: string = [array, value].join('');
+        let result: number[][] = memo[key];
+
+        if (result === undefined) {
+            resultArray = resultArray || cloneArray(array);
+            indexes = indexes || [];
+            indexI = indexI || 0;
+            indexJ = indexJ || 0;
+            indexK = indexK || 0;
+            indexL = indexL || 0;
+
+            if (indexI < resultArray.length) {
+                if (indexJ < resultArray[indexI].length) {
+                    if (resultArray[indexJ][indexI] === value) {
+                        if (!indexes.includes(indexI)) {
+                            indexes.push(indexI);
+                        }
+                    }
+
+                    return memoDeleteColumnWithValue(
+                        array,
+                        value,
+                        resultArray,
+                        indexes,
+                        indexI,
+                        ++indexJ,
+                    );
+                }
+
+                return memoDeleteColumnWithValue(
+                    array,
+                    value,
+                    resultArray,
+                    indexes,
+                    ++indexI,
+                );
+            }
+
+            if (indexK < indexes.length && indexI === resultArray.length) {
+                if (indexK === 0 && indexL === 0) {
+                    indexes.reverse();
+                }
+                if (indexL < resultArray.length) {
+                    resultArray[indexL].splice(indexes[indexK], 1);
+
+                    return memoDeleteColumnWithValue(
+                        array,
+                        value,
+                        resultArray,
+                        indexes,
+                        indexI,
+                        indexJ,
+                        indexK,
+                        ++indexL,
+                    );
+                }
+                return memoDeleteColumnWithValue(
+                    array,
+                    value,
+                    resultArray,
+                    indexes,
+                    indexI,
+                    indexJ,
+                    ++indexK,
+                );
+            }
+
+            result = resultArray;
+            memo[key] = result;
+
+            return result;
+        }
+
         return result;
     };
 })();
