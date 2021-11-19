@@ -241,9 +241,8 @@ function factorial(number: number): number {
 }
 
 // Task 9
-type cb = (elem: number, flag?: boolean) => boolean;
 
-function calcSumElems(arr: number[], callback: cb): number {
+function calcSumElems(arr: number[], callback: Function): number {
     let sum: number = 0;
 
     for (let i: number = 0; i < arr.length; i++) {
@@ -259,7 +258,7 @@ function calcSumElems(arr: number[], callback: cb): number {
 
 function getQuantityDigits(
     arr: number[],
-    callback: cb,
+    callback: Function,
     isFlag: boolean,
 ): number {
     isFlag = isFlag || false;
@@ -314,7 +313,7 @@ function convertBinaryToDecimal(value: number): number {
 
 // Task 12
 
-function calcSumDigitsArr(arr: number[][], callback: cb): number {
+function calcSumDigitsArr(arr: number[][], callback: Function): number {
     let sum: number = 0;
 
     for (let i: number = 0; i < arr.length; i++) {
@@ -332,7 +331,7 @@ function calcSumDigitsArr(arr: number[][], callback: cb): number {
 
 function calcQuantityDigitsArr(
     arr: number[][],
-    callback: cb,
+    callback: Function,
     isFlag: boolean,
 ): number {
     isFlag = isFlag || false;
@@ -364,7 +363,7 @@ function calcQuantityDigitsArr(
 
 // Task 13
 
-function getSumElems(min: number, max: number, callback: cb): number {
+function getSumElems(min: number, max: number, callback: Function): number {
     let sum: number = 0;
 
     for (let i: number = min; i <= max; i++) {
