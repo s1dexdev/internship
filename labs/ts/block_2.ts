@@ -77,7 +77,7 @@ interface IThisValue {
 // Map
 
 interface Array<T> {
-    customMap(callback: Function, thisValue?: IThisValue): T[];
+    customMap<T>(callback: Function, thisValue?: IThisValue): T[];
 }
 
 Array.prototype.customMap = function <T>(
@@ -114,7 +114,7 @@ Array.prototype.customMap = function <T>(
 // Filter
 
 interface Array<T> {
-    customFilter(callback: Function, thisValue?: IThisValue): T[];
+    customFilter<T>(callback: Function, thisValue?: IThisValue): T[];
 }
 
 Array.prototype.customFilter = function <T>(
@@ -196,13 +196,13 @@ Array.prototype.customForEach = function (
 // Reduce
 
 interface Array<T> {
-    customReduce<U>(callback: Function, initialValue?: U): U;
+    customReduce<T>(callback: Function, initialValue?: T): T;
 }
 
-Array.prototype.customReduce = function <U>(
+Array.prototype.customReduce = function <T>(
     callback: Function,
-    initialValue?: U,
-): U {
+    initialValue?: T,
+): T {
     if (this.length === 0 && initialValue === undefined) {
         throw new Error('Reduce of empty this with no initial value');
     }
@@ -259,7 +259,7 @@ interface IObjTwo {
     newValue: number;
     numberIter: number;
 
-    [Symbol.iterator](): this;
+    [Symbol.iterator](): IObjTwo;
 
     next(): IteratorResult<number>;
 }
