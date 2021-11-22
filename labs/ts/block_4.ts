@@ -1,5 +1,9 @@
 // Restaurant
 
+interface IPositionsId {
+    [key: string]: string;
+}
+
 interface ISalaryTotal {
     [key: string]: number[];
 }
@@ -30,9 +34,9 @@ interface IDepartment {
 
 interface IRestaurant {
     departments: IDepartment[];
-    positionsId: any;
+    positionsId: IPositionsId;
 
-    findDepartment(id: string): IDepartment | undefined;
+    findDepartment(id: string): IDepartment;
 
     createDepartment(title: string, id: string): IDepartment;
 
@@ -49,14 +53,14 @@ interface IRestaurant {
 
 class Restaurant implements IRestaurant {
     departments: IDepartment[];
-    positionsId: any;
+    positionsId: IPositionsId;
 
-    constructor(positions: any) {
+    constructor(positions: IPositionsId) {
         this.departments = [];
         this.positionsId = positions || {};
     }
 
-    findDepartment(id: string): IDepartment | undefined {
+    findDepartment(id: string): IDepartment {
         return this.departments.find(department => department.id === id);
     }
 
@@ -226,7 +230,7 @@ interface IBank {
 
     createClientAccount(credentials: acc): IClient | null;
 
-    findClientById(id: number): IClient | undefined;
+    findClientById(id: number): IClient;
 
     setExpiryDateClientCard(month: number, year: number): string;
 
@@ -274,7 +278,7 @@ class Bank implements IBank {
     }
 
     createClientAccount(credentials: acc): IClient | null {
-        const client: IClient | undefined = this.findClientById(credentials.id);
+        const client: IClient = this.findClientById(credentials.id);
 
         if (client === undefined) {
             return null;
@@ -286,7 +290,7 @@ class Bank implements IBank {
         return client;
     }
 
-    findClientById(id: number): IClient | undefined {
+    findClientById(id: number): IClient {
         return this.clients.find(client => client.id === id);
     }
 
