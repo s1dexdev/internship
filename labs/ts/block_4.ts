@@ -191,115 +191,120 @@ class Restaurant implements IRestaurant {
 // Bank
 
 interface IAccount {
-    id: string,
-    typeAcc: string,
-    currency: string,
-    balance: number | {own: number, credit: number},
-    isActive: boolean,
-    expiryDate: string,
-    creditLimit?: number,
+    id: number;
+    typeAcc: string;
+    currency: string;
+    isActive: boolean;
+    expiryDate: string;
 }
 
+interface ICreditAcc extends IAccount {
+    balance: { own: number; credit: number };
+    creditLimit: number;
+}
+
+interface IDebitAcc extends IAccount {
+    balance: number;
+}
+
+type acc = IDebitAcc & ICreditAcc;
+
 interface IClient {
-    name: string,
-    surname: string,
-    id: string,
-    isActive: boolean,
-    registrationDate: string,
-    accounts: IAccount[],
+    name: string;
+    surname: string;
+    id: number;
+    isActive: boolean;
+    registrationDate: Date;
+    accounts: acc[];
 }
 
 interface IBank {
     clients: IClient[];
-    gendId: number,
+    genId: number;
 
-    addClient(client: IClient): IClient,
+    addClient(credentials: IClient): IClient;
 
-    createClientAccount(id: string, typeAcc: string, currency: string): IClient,
+    createClientAccount(credentials: acc): IClient | null;
 
-    findClientById(id: string): IClient,
+    findClientById(id: number): IClient | undefined;
 
-    setExpiryDateClientCard(month: number, year: number): string,
+    setExpiryDateClientCard(month: number, year: number): string;
 
-    conversionCurrency(rates: any[], currency: string, amount: number, baseCurrencyBank: string, baseCurrencyCountry: string): number,
+    conversionCurrency(
+        rates: any[],
+        currency: string,
+        amount: number,
+        baseCurrencyBank: string,
+        baseCurrencyCountry: string,
+    ): number;
 
+    getAmountTotal(
+        baseCurrencyBank: string,
+        baseCurrencyCountry: string,
+    ): Promise<any>;
 
+    getAmountClientsOwe(
+        mainCurrencyBank: string,
+        mainCurrencyCountry: string,
+        callback: Function,
+    ): Promise<any>;
 
+    getCurrencyRates(handleError: Function): Promise<any>;
 }
 
-
-class Bank {
-    #clients;
-    #genId; // Temp
+class Bank implements IBank {
+    clients: IClient[];
+    genId: number;
 
     constructor() {
-        this.#clients = [];
-        this.#genId = 1; // Temp
+        this.clients = [];
+        this.genId = 1;
     }
 
-    addClient(client) {
-        client.id = this.#genId; // Temp
+    addClient(client: IClient): IClient {
+        client.id = this.genId;
         client.isActive = true;
         client.registrationDate = new Date();
         client.accounts = [];
 
-        this.#clients.push(client);
-        this.#genId++; // Temp
+        this.clients.push(client);
+        this.genId++;
 
         return client;
     }
 
-    createClientAccount(id, typeAcc, currency) {
-        const client = this.findClientById(id);
-        let account = null;
+    createClientAccount(credentials: acc): IClient | null {
+        const client: IClient | undefined = this.findClientById(credentials.id);
 
         if (client === undefined) {
             return null;
         }
 
-        account = {
-            typeAcc,
-            number: this.#genId, // Temp
-            balance: null,
-            expiryDate: this.setExpiryDateClientCard(1, 3),
-            currency,
-            isActive: true,
-        };
-
-        if (type === 'debit') {
-            account.balance = 0;
-        }
-
-        if (type === 'credit') {
-            account.creditLimit = 10000;
-            account.balance = { own: 0, credit: account.creditLimit };
-        }
-
-        client.accounts.push(account);
-        this.#genId++; // Temp
+        client.accounts.push(credentials);
+        this.genId++;
 
         return client;
     }
 
-    findClientById(id) {
-        return this.#clients.find(client => client.id === id);
+    findClientById(id: number): IClient | undefined {
+        return this.clients.find(client => client.id === id);
     }
 
-    setExpiryDateClientCard(month, year) {
-        const date = new Date();
+    setExpiryDateClientCard(month: number, year: number): string {
+        const date: Date = new Date();
 
         return `${date.getMonth() + month}/${date.getFullYear() + year}`;
     }
 
     conversionCurrency(
-        rates,
-        currency,
-        amount,
-        baseCurrencyBank,
-        baseCurrencyCountry,
-    ) {
-        let result = null;
-        let baseCurrencyRate = rates.find(
+        rates: any[],
+        currency: string,
+        amount: any,
+        baseCurrencyBank: string,
+        baseCurrencyCountry: string,
+    ): number {
+        let result: any = null;
+        let baseCurrencyRate: any = rates.find(
             ({ ccy }) => ccy === baseCurrencyBank,
         );
 
@@ -320,14 +325,19 @@ class Bank {
         return Math.round(result * 100) / 100;
     }
 
-    async getAmountTotal(baseCurrencyBank, baseCurrencyCountry) {
-        const currencyRates = await this.getCurrencyRates();
+    async getAmountTotal(
+        baseCurrencyBank: string,
+        baseCurrencyCountry: string,
+    ): Promise<any> {
+        const currencyRates: any[] = await this.getCurrencyRates(
+            (error: Error) => error,
+        );
 
-        return this.#clients.reduce((result, { accounts }) => {
-            accounts.forEach(account => {
-                let { type, currency, balance } = account;
+        return this.clients.reduce((result: any, { accounts }) => {
+            accounts.forEach((account): any => {
+                let { typeAcc, currency, balance }: acc = account;
 
-                if (type === 'debit') {
+                if (typeAcc === 'debit') {
                     if (currency === baseCurrencyBank) {
                         result += balance;
 
@@ -345,9 +355,9 @@ class Bank {
                     return account;
                 }
 
-                if (account.type === 'credit') {
-                    let { own, credit } = account.balance;
-                    let totalAmount = own + credit;
+                if (account.typeAcc === 'credit') {
+                    let { own, credit }: any = account.balance;
+                    let totalAmount: number = own + credit;
 
                     if (currency === baseCurrencyBank) {
                         result += totalAmount;
@@ -371,11 +381,17 @@ class Bank {
         }, 0);
     }
 
-    async getAmountClientsOwe(mainCurrencyBank, mainCurrencyCountry, callback) {
-        const currencyRates = await this.getCurrencyRates();
+    async getAmountClientsOwe(
+        mainCurrencyBank: string,
+        mainCurrencyCountry: string,
+        callback: Function,
+    ): Promise<any> {
+        const currencyRates = await this.getCurrencyRates(
+            (error: Error) => error,
+        );
 
-        return this.#clients.reduce(
-            (accumulator, { isActive, accounts }, index) => {
+        return this.clients.reduce(
+            (accumulator: any, { isActive, accounts }, index) => {
                 if (index === 0) {
                     accumulator.amount = 0;
                     accumulator.numberDebtors = 0;
@@ -385,12 +401,12 @@ class Bank {
                     return accumulator;
                 }
 
-                const totalDebt = accounts.reduce((acc, accounut) => {
-                    let { type, currency } = accounut;
+                const totalDebt = accounts.reduce((acc: any, account) => {
+                    let { typeAcc, currency } = account;
 
-                    if (type === 'credit') {
-                        let loanAmount =
-                            accounut.creditLimit - accounut.balance.credit;
+                    if (typeAcc === 'credit') {
+                        let loanAmount: number =
+                            account.creditLimit - account.balance.credit;
 
                         if (loanAmount < 0) {
                             return acc;
@@ -402,7 +418,7 @@ class Bank {
                             return acc;
                         }
 
-                        acc += this.conversionCurrencyToUsd(
+                        acc += this.conversionCurrency(
                             currencyRates,
                             currency,
                             loanAmount,
@@ -425,16 +441,17 @@ class Bank {
         );
     }
 
-    async getCurrencyRates(handleError) {
-        const url =
+    async getCurrencyRates(handleError: Function): Promise<any> {
+        const url: string =
             'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5';
 
         try {
-            const response = await fetch(url);
-            const rates = await response.json();
+            const response: Response = await fetch(url);
+            const rates: any[] = await response.json();
 
             return rates;
         } catch (error) {
             handleError(error);
         }
     }
+}
